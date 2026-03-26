@@ -55,23 +55,42 @@ iframe{
   height:200px;
   border-radius:10px;
 }
+.logo{
+  width:120px;
+  margin:10px 0;
+}
+.social{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+}
+.social img{
+  width:20px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
+<!-- INÍCIO -->
 <div id="inicio">
 <h1 style="margin:0;">D.I.P.</h1>
 <h2 style="margin:0;">2026</h2>
 <p><strong>ADECAMP</strong></p>
-<img src="/mnt/data/d127662e-412d-4533-b4a1-dba254bdeb7b.png" alt="Logo ADECAMP" style="width:120px;margin:10px 0;">
-<h2>D.I.P 2026</h2>
+
+<!-- ⚠️ IMPORTANTE: troque pelo nome do seu arquivo -->
+<img src="logo.png" class="logo">
+
 <p>Domingo da Igreja Perseguida</p>
 <p>📅 31 de maio</p>
+
 <button onclick="abrirFormulario()">Clique aqui e faça seu cadastro</button>
 </div>
 
+<!-- FORMULÁRIO -->
 <div id="formulario" class="hidden">
 <input id="nome" placeholder="Nome completo">
 <input id="nascimento" type="date">
@@ -80,27 +99,44 @@ iframe{
 <button onclick="irPagamento()">Continuar</button>
 </div>
 
+<!-- PAGAMENTO -->
 <div id="pagamento" class="hidden">
 <p>Pagamento via Pix</p>
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SEU_PIX_AQUI">
 <button onclick="confirmar()">Já paguei</button>
 </div>
 
+<!-- FINAL -->
 <div id="final" class="hidden">
 <h3>🎉 Inscrição Confirmada!</h3>
 <p>Glória a Deus! Te esperamos 🙌</p>
+
 <p>📍 Rua Ana Teles, 826 - RJ</p>
 
 <iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
 
 <p>📲 Confirmação enviada no WhatsApp e Email</p>
 
-<p>📸 @adecamprj</p>
-<p>📘 Assembleia de Deus em Campinho</p>
-<p>▶️ ADECAMP RJ OFICIAL</p>
+<p><strong>Nos siga:</strong></p>
+
+<div class="social">
+  <img src="instagran-50.png">
+  <span>@adecamprj</span>
+</div>
+
+<div class="social">
+  <img src="facebook-50.png">
+  <span>Assembleia de Deus em Campinho</span>
+</div>
+
+<div class="social">
+  <img src="youtube-50.png">
+  <span>ADECAMP RJ OFICIAL</span>
+</div>
 
 <p>📧 adecamprj@gmail.com</p>
 <p>📞 (21) 3359-8007</p>
+
 <button onclick="voltarInicio()">🔙 Voltar ao início</button>
 </div>
 
@@ -139,6 +175,11 @@ emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
 
 pagamento.style.display='none';
 final.style.display='block';
+}
+
+function voltarInicio(){
+final.style.display='none';
+inicio.style.display='block';
 }
 </script>
 
