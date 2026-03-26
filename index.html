@@ -102,9 +102,23 @@ iframe{
 
 <!-- PAGAMENTO -->
 <div id="pagamento" class="hidden">
-<p>Pagamento via Pix</p>
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SEU_PIX_AQUI">
-<button onclick="confirmar()">Já paguei</button>
+  <h3>Pagamento do ingresso</h3>
+  <p><strong>Pix</strong></p>
+
+  <img src="qrcode.png" style="width:200px; border-radius:10px;">
+
+  <p style="margin-top:10px; font-size:14px;">
+    Chave Pix (CNPJ):
+  </p>
+
+  <input 
+    type="text" 
+    value="39.165.116/0001-69" 
+    readonly 
+    style="text-align:center; font-weight:bold;"
+  >
+
+  <button onclick="confirmar()">Já paguei</button>
 </div>
 
 <!-- FINAL -->
