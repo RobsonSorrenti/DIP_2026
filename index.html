@@ -5,11 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D.I.P 2026</title>
 
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 <script>
 (function(){
   emailjs.init("zxg1A3foVUrwo8MgR");
 })();
+
+// CONFIG FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
+  authDomain: "dip-2026.firebaseapp.com",
+  projectId: "dip-2026"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 </script>
 
 <style>
@@ -53,19 +69,17 @@ button{
 
 .logo{width:120px;}
 
-.social{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-}
-
-.social img{width:20px;}
-
 iframe{
   width:100%;
   height:200px;
   border-radius:10px;
+}
+
+/* MOBILE */
+@media (max-width:600px){
+  body{font-size:18px;}
+  h1{font-size:32px;}
+  h2{font-size:24px;}
 }
 </style>
 </head>
@@ -131,7 +145,6 @@ iframe{
 <div id="final" class="hidden">
 <h3>📩 Inscrição enviada!</h3>
 
-<p>Verifique seu e-mail 🙌</p>
 <p>Status: <strong>Aguardando pagamento</strong></p>
 
 <iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
@@ -139,23 +152,6 @@ iframe{
 <a href="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro" target="_blank">
 <button>📍 Como chegar</button>
 </a>
-
-<p><strong>Nos siga:</strong></p>
-
-<div class="social">
-<img src="instagran-50.png">
-<a href="https://instagram.com/adecamprj" target="_blank">@adecamprj</a>
-</div>
-
-<div class="social">
-<img src="facebook-50.png">
-<a href="https://www.facebook.com/adecamp/" target="_blank">Facebook</a>
-</div>
-
-<div class="social">
-<img src="youtube-50.png">
-<a href="https://www.youtube.com/@adecamprjoficialpastorkleb9342/featured" target="_blank">YouTube</a>
-</div>
 
 <button onclick="voltarInicio()">🔙 Voltar</button>
 </div>
@@ -199,19 +195,26 @@ pagamento.style.display='block';
 function confirmar(){
 let nomeUser = nome.value;
 
+// SALVAR NO FIREBASE
+db.collection("inscritos").add({
+  nome: nomeUser,
+  email: email.value,
+  telefone: telefone.value,
+  status: "pendente",
+  data: new Date()
+});
+
+// EMAIL
 let mensagem = `
 Glória a Deus ${nomeUser}!
 
-Sua inscrição no D.I.P 2026 foi recebida 🙌
+Sua inscrição foi recebida 🙌
 
-⚠️ Status: Aguardando confirmação de pagamento
+Status: aguardando pagamento
 
-📲 Envie o comprovante:
-wa.me/552133598007
+Envie o comprovante para o WhatsApp da igreja.
 
 📅 30 e 31 de maio
-
-Assim que confirmado, você receberá novo email.
 `;
 
 emailjs.send("service_61svzub","template_fdxrswb",{
