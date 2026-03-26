@@ -2,9 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Painel DIP 2026</title>
 
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
@@ -22,28 +26,82 @@ const db = firebase.firestore();
 </script>
 
 <style>
-body { font-family: Arial; padding:20px; }
-.card {
-  border:1px solid #ccc;
-  padding:10px;
-  margin:10px 0;
-  border-radius:10px;
+body {
+  margin:0;
+  font-family: Arial;
+  background:#121212;
+  color:#fff;
+  padding:15px;
 }
-.pago { background:#c8e6c9; }
-.pendente { background:#ffcdd2; }
-button { padding:8px; margin-top:5px; }
+
+h2 {
+  text-align:center;
+}
+
+.container {
+  max-width:600px;
+  margin:auto;
+}
+
+.card {
+  padding:15px;
+  margin:10px 0;
+  border-radius:12px;
+  background:#1e1e1e;
+}
+
+.pendente {
+  border-left:5px solid #ff5252;
+}
+
+.pago {
+  border-left:5px solid #00c853;
+}
+
+button {
+  margin-top:10px;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#00c853;
+  color:#fff;
+  cursor:pointer;
+  width:100%;
+}
+
+button:hover {
+  opacity:0.9;
+}
+
+/* RESPONSIVO */
+@media (max-width:600px){
+  body { font-size:16px; }
+  h2 { font-size:22px; }
+  .card { padding:12px; }
+}
 </style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h2>📋 Painel de Inscritos - DIP 2026</h2>
 
-<div id="lista"></div>
+<div id="lista">Carregando...</div>
+
+</div>
 
 <script>
-db.collection("inscritos").onSnapshot(snapshot=>{
+
+// LISTAR INSCRITOS
+db.collection("inscritos").orderBy("data", "desc").onSnapshot(snapshot=>{
   let html = "";
+
+  if(snapshot.empty){
+    lista.innerHTML = "Nenhum inscrito ainda.";
+    return;
+  }
 
   snapshot.forEach(doc=>{
     let d = doc.data();
@@ -53,14 +111,15 @@ db.collection("inscritos").onSnapshot(snapshot=>{
       <strong>${d.nome}</strong><br>
       📧 ${d.email}<br>
       📞 ${d.telefone}<br>
+      🕒 ${new Date(d.data.seconds * 1000).toLocaleString()}<br>
       Status: <b>${d.status}</b><br>
 
       ${
-        d.status === "pendente" 
-        ? `<button onclick="confirmarPagamento('${doc.id}', '${d.nome}', '${d.email}')">
+        d.status === "pendente"
+        ? `<button onclick="confirmarPagamento('${doc.id}','${d.nome}','${d.email}')">
             ✅ Confirmar pagamento
           </button>`
-        : "✔️ Pago"
+        : `<span style="color:#00c853;">✔️ Pagamento confirmado</span>`
       }
     </div>
     `;
@@ -69,8 +128,11 @@ db.collection("inscritos").onSnapshot(snapshot=>{
   lista.innerHTML = html;
 });
 
-// CONFIRMAR PAGAMENTO + EMAIL
+
+// CONFIRMAR PAGAMENTO
 function confirmarPagamento(id, nome, email){
+
+  if(!confirm("Confirmar pagamento de " + nome + "?")) return;
 
   db.collection("inscritos").doc(id).update({
     status: "pago"
@@ -97,6 +159,7 @@ Te esperamos!
 
   alert("Pagamento confirmado e email enviado!");
 }
+
 </script>
 
 </body>
