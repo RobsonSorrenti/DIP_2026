@@ -76,6 +76,51 @@ iframe{
 
 <div class="container">
 
+<script>
+function abrirFormulario(){
+  inicio.style.display='none';
+  formulario.style.display='block';
+}
+
+function irPagamento(){
+  if(!nome.value||!nascimento.value||!email.value||!telefone.value){
+    alert('Preencha todos os campos');
+    return;
+  }
+  formulario.style.display='none';
+  pagamento.style.display='block';
+}
+
+function confirmar(){
+  let nomeUser = nome.value;
+  let tel = telefone.value.replace(/\D/g,'');
+
+  let mensagem = `Glória a Deus ${nomeUser}! Sua inscrição no D.I.P 2026 foi confirmada!\n📍 Rua Ana Teles, 826 - RJ`;
+
+  window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(mensagem)}`);
+
+  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+    nome: nomeUser,
+    email: email.value,
+    mensagem: mensagem
+  });
+
+  pagamento.style.display='none';
+  final.style.display='block';
+}
+
+function voltarInicio(){
+  final.style.display='none';
+  inicio.style.display='block';
+}
+
+function copiarPix(){
+  const chave = document.getElementById("chavePix").value;
+  navigator.clipboard.writeText(chave);
+  alert("Chave Pix copiada!");
+}
+</script>
+  
 <!-- INÍCIO -->
 <div id="inicio">
 <h1 style="margin:0;">D.I.P.</h1>
