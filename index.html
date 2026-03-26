@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D.I.P 2026</title>
 
-<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function(){
@@ -20,7 +19,6 @@ body {
   background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url('background.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
   color:#fff;
   display:flex;
   justify-content:center;
@@ -39,7 +37,7 @@ body {
 
 input,button{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin:8px 0;
   border:none;
   border-radius:8px;
@@ -49,25 +47,11 @@ button{
   background:#00c853;
   color:#fff;
   cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  transform:scale(1.05);
 }
 
 .hidden{display:none;}
 
-iframe{
-  width:100%;
-  height:200px;
-  border-radius:10px;
-}
-
-.logo{
-  width:120px;
-  margin:10px 0;
-}
+.logo{width:120px;}
 
 .social{
   display:flex;
@@ -76,16 +60,12 @@ iframe{
   gap:8px;
 }
 
-.social img{
-  width:20px;
-}
+.social img{width:20px;}
 
-/* RESPONSIVO */
-@media (max-width: 600px) {
-  body { font-size:18px; }
-  h1 { font-size:32px; }
-  h2 { font-size:24px; }
-  input, button { font-size:16px; padding:12px; }
+iframe{
+  width:100%;
+  height:200px;
+  border-radius:10px;
 }
 </style>
 </head>
@@ -94,7 +74,7 @@ iframe{
 
 <div class="container">
 
-<!-- INÍCIO -->
+<!-- INICIO -->
 <div id="inicio">
 <h1>D.I.P.</h1>
 <h2>2026</h2>
@@ -104,19 +84,19 @@ iframe{
 
 <p>📅 30 e 31 de maio</p>
 
-<p style="font-size:14px;">
-⏰ <strong>30/05:</strong> 08h às 20h<br>
-⏰ <strong>31/05:</strong> 08h às 11h30
+<p>
+⏰ 30/05: 08h às 20h<br>
+⏰ 31/05: 08h às 11h30
 </p>
 
 <p style="color:#ffeb3b;">🍽️ Inclui almoço dia 30</p>
 
-<div id="contador" style="color:#ffeb3b;"></div>
+<div id="contador"></div>
 
 <button onclick="abrirFormulario()">Clique aqui e faça seu cadastro</button>
 </div>
 
-<!-- FORMULÁRIO -->
+<!-- FORM -->
 <div id="formulario" class="hidden">
 <input id="nome" placeholder="Nome completo">
 <input id="nascimento" type="date">
@@ -127,36 +107,32 @@ iframe{
 
 <!-- PAGAMENTO -->
 <div id="pagamento" class="hidden">
-<h3>Pagamento do ingresso</h3>
+<h3>Pagamento</h3>
 
-<p style="color:#ffeb3b; font-size:18px;">🎟️ R$ 30,00</p>
+<p style="color:#ffeb3b;">🎟️ R$ 30,00</p>
 
-<p><strong>Pix</strong></p>
+<img src="qrcode.png" style="width:200px;">
 
-<img src="qrcode.png" style="width:200px; border-radius:10px;">
-
-<input id="chavePix" type="text" value="39.165.116/0001-69" readonly>
+<input id="chavePix" value="39.165.116/0001-69" readonly>
 
 <button onclick="copiarPix()">📋 Copiar chave Pix</button>
 
-<div style="background:#ffeb3b; color:#000; padding:10px; border-radius:10px; margin-top:10px; text-align:left;">
-<p><strong>⚠️ ATENÇÃO</strong></p>
-<p>Envie o comprovante:</p>
-<a href="https://wa.me/552133598007" target="_blank">wa.me/552133598007</a>
+<div style="background:#ffeb3b; color:#000; padding:10px; border-radius:10px;">
+<p><strong>⚠️ Envie o comprovante:</strong></p>
+<a href="https://wa.me/552133598007" target="_blank">WhatsApp</a>
 <p><strong>Nome:</strong> Tesouraria da Igreja</p>
 <p><strong>Descrição:</strong> DIP 2026</p>
 </div>
 
-<button onclick="confirmar()">Já paguei</button>
+<button onclick="confirmar()">📩 Enviar inscrição</button>
 </div>
 
 <!-- FINAL -->
 <div id="final" class="hidden">
-<h3>🎉 Inscrição Confirmada!</h3>
+<h3>📩 Inscrição enviada!</h3>
 
-<p>Glória a Deus! Te esperamos 🙌</p>
-
-<p>📍 Rua Ana Teles, 826 - RJ</p>
+<p>Verifique seu e-mail 🙌</p>
+<p>Status: <strong>Aguardando pagamento</strong></p>
 
 <iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
 
@@ -181,10 +157,7 @@ iframe{
 <a href="https://www.youtube.com/@adecamprjoficialpastorkleb9342/featured" target="_blank">YouTube</a>
 </div>
 
-<p>📧 adecamprj@gmail.com</p>
-<p>📞 (21) 3359-8007</p>
-
-<button onclick="voltarInicio()">🔙 Voltar ao início</button>
+<button onclick="voltarInicio()">🔙 Voltar</button>
 </div>
 
 </div>
@@ -192,21 +165,20 @@ iframe{
 <script>
 // CONTADOR
 setInterval(()=>{
-const data=new Date("2026-05-30T08:00:00");
-const now=new Date();
-const diff=data-now;
+let data=new Date("2026-05-30T08:00:00");
+let now=new Date();
+let diff=data-now;
 
 if(diff<=0){
-contador.innerHTML="🔥 O evento começou!";
+contador.innerHTML="🔥 Evento iniciado!";
 return;
 }
 
 let d=Math.floor(diff/(1000*60*60*24));
 let h=Math.floor((diff/(1000*60*60))%24);
 let m=Math.floor((diff/(1000*60))%60);
-let s=Math.floor((diff/1000)%60);
 
-contador.innerHTML=`⏳ ${d}d ${h}h ${m}m ${s}s`;
+contador.innerHTML=`⏳ ${d}d ${h}h ${m}m`;
 },1000);
 
 // FUNÇÕES
@@ -216,7 +188,7 @@ formulario.style.display='block';
 }
 
 function irPagamento(){
-if(!nome.value||!nascimento.value||!email.value||!telefone.value){
+if(!nome.value||!email.value||!telefone.value){
 alert('Preencha todos os campos');
 return;
 }
@@ -225,31 +197,41 @@ pagamento.style.display='block';
 }
 
 function confirmar(){
-let nomeUser=nome.value;
-let tel=telefone.value.replace(/\D/g,'');
+let nomeUser = nome.value;
 
-let msg=`Glória a Deus ${nomeUser}! Sua inscrição no DIP 2026 foi confirmada!`;
+let mensagem = `
+Glória a Deus ${nomeUser}!
 
-window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`);
+Sua inscrição no D.I.P 2026 foi recebida 🙌
+
+⚠️ Status: Aguardando confirmação de pagamento
+
+📲 Envie o comprovante:
+wa.me/552133598007
+
+📅 30 e 31 de maio
+
+Assim que confirmado, você receberá novo email.
+`;
 
 emailjs.send("service_61svzub","template_fdxrswb",{
 nome:nomeUser,
 email:email.value,
-mensagem:msg
+mensagem:mensagem
 });
 
 pagamento.style.display='none';
 final.style.display='block';
 }
 
-function voltarInicio(){
-final.style.display='none';
-inicio.style.display='block';
-}
-
 function copiarPix(){
 navigator.clipboard.writeText("39.165.116/0001-69");
 alert("Chave Pix copiada!");
+}
+
+function voltarInicio(){
+final.style.display='none';
+inicio.style.display='block';
 }
 </script>
 
