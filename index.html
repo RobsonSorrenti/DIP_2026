@@ -223,15 +223,6 @@ return;
 formulario.style.display='none';
 pagamento.style.display='block';
 }
-
-function confirmar(){
-let nomeUser=nome.value;
-let tel=telefone.value.replace(/\D/g,'');
-
-let msg=`Glória a Deus ${nomeUser}! Sua inscrição no DIP 2026 foi confirmada!`;
-
-window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`);
-
 emailjs.send("service_61svzub","template_fdxrswb",{
 nome:nomeUser,
 email:email.value,
