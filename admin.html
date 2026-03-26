@@ -12,6 +12,9 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+<!-- Gráfico -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 emailjs.init("zxg1A3foVUrwo8MgR");
 
@@ -34,14 +37,12 @@ body {
   padding:15px;
 }
 
-h2 {
-  text-align:center;
-}
-
 .container {
-  max-width:600px;
+  max-width:800px;
   margin:auto;
 }
+
+h2 { text-align:center; }
 
 .card {
   padding:15px;
@@ -50,13 +51,8 @@ h2 {
   background:#1e1e1e;
 }
 
-.pendente {
-  border-left:5px solid #ff5252;
-}
-
-.pago {
-  border-left:5px solid #00c853;
-}
+.pendente { border-left:5px solid red; }
+.pago { border-left:5px solid #00c853; }
 
 button {
   margin-top:10px;
@@ -69,15 +65,10 @@ button {
   width:100%;
 }
 
-button:hover {
-  opacity:0.9;
-}
-
-/* RESPONSIVO */
-@media (max-width:600px){
-  body { font-size:16px; }
-  h2 { font-size:22px; }
-  .card { padding:12px; }
+canvas {
+  background:#fff;
+  border-radius:10px;
+  margin:10px 0;
 }
 </style>
 </head>
@@ -86,53 +77,120 @@ button:hover {
 
 <div class="container">
 
-<h2>📋 Painel de Inscritos - DIP 2026</h2>
+<h2>📊 Painel DIP 2026</h2>
 
-<div id="lista">Carregando...</div>
+<h3 id="contador">👥 Total: 0</h3>
+
+<canvas id="grafico"></canvas>
+
+<input type="text" id="busca" placeholder="🔎 Buscar por nome" onkeyup="filtrar()">
+
+<select id="filtro" onchange="filtrar()">
+  <option value="todos">Todos</option>
+  <option value="pendente">Pendentes</option>
+  <option value="pago">Pagos</option>
+</select>
+
+<button onclick="exportar()">📊 Exportar Excel</button>
+
+<div id="lista"></div>
 
 </div>
 
 <script>
 
-// LISTAR INSCRITOS
-db.collection("inscritos").orderBy("data", "desc").onSnapshot(snapshot=>{
-  let html = "";
+let dados = [];
+let chart;
 
-  if(snapshot.empty){
-    lista.innerHTML = "Nenhum inscrito ainda.";
-    return;
-  }
+// 🔥 FIREBASE
+db.collection("inscritos").orderBy("data","desc").onSnapshot(snapshot=>{
+  dados = [];
+  let pendente = 0;
+  let pago = 0;
 
   snapshot.forEach(doc=>{
     let d = doc.data();
+    d.id = doc.id;
+    dados.push(d);
+
+    if(d.status === "pago") pago++;
+    else pendente++;
+  });
+
+  contador.innerHTML = `👥 Total: ${dados.length}`;
+
+  atualizarGrafico(pendente, pago);
+  renderizar(dados);
+});
+
+// 📊 GRÁFICO
+function atualizarGrafico(pendente, pago){
+
+  if(chart) chart.destroy();
+
+  chart = new Chart(grafico, {
+    type: 'doughnut',
+    data: {
+      labels: ['Pendentes','Pagos'],
+      datasets: [{
+        data: [pendente, pago]
+      }]
+    }
+  });
+}
+
+// 🧾 RENDER
+function renderizar(listaDados){
+  let html = "";
+
+  listaDados.forEach(d=>{
+
+    let qrUrl = d.codigo
+      ? `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(d.codigo)}`
+      : "";
 
     html += `
     <div class="card ${d.status}">
       <strong>${d.nome}</strong><br>
       📧 ${d.email}<br>
       📞 ${d.telefone}<br>
-      🕒 ${new Date(d.data.seconds * 1000).toLocaleString()}<br>
       Status: <b>${d.status}</b><br>
+
+      ${d.usado ? "<p style='color:orange;'>⚠️ Já utilizado</p>" : ""}
+
+      ${qrUrl ? `<img src="${qrUrl}"><br>` : ""}
 
       ${
         d.status === "pendente"
-        ? `<button onclick="confirmarPagamento('${doc.id}','${d.nome}','${d.email}')">
+        ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
             ✅ Confirmar pagamento
           </button>`
-        : `<span style="color:#00c853;">✔️ Pagamento confirmado</span>`
+        : "✔️ Pago"
       }
     </div>
     `;
   });
 
-  lista.innerHTML = html;
-});
+  lista.innerHTML = html || "Nenhum resultado.";
+}
 
+// 🔎 FILTRO
+function filtrar(){
+  let texto = busca.value.toLowerCase();
+  let tipo = filtro.value;
 
-// CONFIRMAR PAGAMENTO
-function confirmarPagamento(id, nome, email){
+  let filtrados = dados.filter(d=>{
+    return (
+      d.nome.toLowerCase().includes(texto) &&
+      (tipo === "todos" || d.status === tipo)
+    );
+  });
 
-  if(!confirm("Confirmar pagamento de " + nome + "?")) return;
+  renderizar(filtrados);
+}
+
+// ✅ CONFIRMAR PAGAMENTO
+function confirmar(id, nome, email){
 
   db.collection("inscritos").doc(id).update({
     status: "pago"
@@ -144,11 +202,6 @@ Glória a Deus ${nome}!
 Seu pagamento foi confirmado ✅
 
 Sua inscrição no D.I.P 2026 está garantida 🎉
-
-📅 30/05 e 31/05
-📍 Rua Ana Teles, 826
-
-Te esperamos!
 `;
 
   emailjs.send("service_61svzub","template_m4c28dc",{
@@ -157,7 +210,22 @@ Te esperamos!
     mensagem: mensagem
   });
 
-  alert("Pagamento confirmado e email enviado!");
+  alert("Pagamento confirmado!");
+}
+
+// 📊 EXPORTAR CSV
+function exportar(){
+  let csv = "Nome,Email,Telefone,Status\n";
+
+  dados.forEach(d=>{
+    csv += `${d.nome},${d.email},${d.telefone},${d.status}\n`;
+  });
+
+  let blob = new Blob([csv], { type: 'text/csv' });
+  let link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = "inscritos.csv";
+  link.click();
 }
 
 </script>
