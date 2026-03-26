@@ -5,7 +5,35 @@
 <title>D.I.P 2026</title>
 <!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js">
+<div id="contador" style="margin-top:10px; font-size:16px; color:#ffeb3b;"></div>
 
+  <a href="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro" target="_blank">
+  <button>📍 Como chegar</button>
+</a>
+  
+<script>
+function atualizarContador() {
+  const dataEvento = new Date("2026-05-30T08:00:00");
+  const agora = new Date();
+  const diferenca = dataEvento - agora;
+
+  if (diferenca <= 0) {
+    document.getElementById("contador").innerHTML = "🔥 O evento já começou!";
+    return;
+  }
+
+  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+  const segundos = Math.floor((diferenca / 1000) % 60);
+
+  document.getElementById("contador").innerHTML =
+    `⏳ Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s`;
+}
+
+setInterval(atualizarContador, 1000);
+</script>
+  
 function voltarInicio(){
   final.style.display='none';
   inicio.style.display='block';
@@ -171,7 +199,10 @@ function copiarPix(){
     readonly 
     style="text-align:center; font-weight:bold;"
   >
-
+<p style="font-size:18px; font-weight:bold; color:#ffeb3b;">
+  🎟️ Ingresso: R$ 30,00
+</p>
+  
   <!-- BOTÃO COPIAR -->
   <button onclick="copiarPix()">📋 Copiar chave Pix</button>
 
