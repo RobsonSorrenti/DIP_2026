@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel DIP 2026</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+<script>
+emailjs.init("zxg1A3foVUrwo8MgR");
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
+  authDomain: "dip-2026.firebaseapp.com",
+  projectId: "dip-2026"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
+<style>
+body { font-family: Arial; padding:20px; }
+.card {
+  border:1px solid #ccc;
+  padding:10px;
+  margin:10px 0;
+  border-radius:10px;
+}
+.pago { background:#c8e6c9; }
+.pendente { background:#ffcdd2; }
+button { padding:8px; margin-top:5px; }
+</style>
+</head>
+
+<body>
+
+<h2>📋 Painel de Inscritos - DIP 2026</h2>
+
+<div id="lista"></div>
+
+<script>
+db.collection("inscritos").onSnapshot(snapshot=>{
+  let html = "";
+
+  snapshot.forEach(doc=>{
+    let d = doc.data();
+
+    html += `
+    <div class="card ${d.status}">
+      <strong>${d.nome}</strong><br>
+      📧 ${d.email}<br>
+      📞 ${d.telefone}<br>
+      Status: <b>${d.status}</b><br>
+
+      ${
+        d.status === "pendente" 
+        ? `<button onclick="confirmarPagamento('${doc.id}', '${d.nome}', '${d.email}')">
+            ✅ Confirmar pagamento
+          </button>`
+        : "✔️ Pago"
+      }
+    </div>
+    `;
+  });
+
+  lista.innerHTML = html;
+});
+
+// CONFIRMAR PAGAMENTO + EMAIL
+function confirmarPagamento(id, nome, email){
+
+  db.collection("inscritos").doc(id).update({
+    status: "pago"
+  });
+
+  let mensagem = `
+Glória a Deus ${nome}!
+
+Seu pagamento foi confirmado ✅
+
+Sua inscrição no D.I.P 2026 está garantida 🎉
+
+📅 30/05 e 31/05
+📍 Rua Ana Teles, 826
+
+Te esperamos!
+`;
+
+  emailjs.send("service_61svzub","template_fdxrswb",{
+    nome: nome,
+    email: email,
+    mensagem: mensagem
+  });
+
+  alert("Pagamento confirmado e email enviado!");
+}
+</script>
+
+</body>
+</html>
