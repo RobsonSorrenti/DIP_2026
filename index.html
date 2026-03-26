@@ -116,7 +116,7 @@ iframe{
 
 <iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
 
-<p>📲 Confirmação enviada no WhatsApp e Email</p>
+<p>@ Confirmação enviada em seu Email</p>
 
 <p><strong>Nos siga:</strong></p>
 
@@ -164,11 +164,8 @@ let tel = telefone.value.replace(/\D/g,'');
 
 let mensagem = `Glória a Deus ${nomeUser}! Sua inscrição no D.I.P 2026 foi confirmada!\n📍 Rua Ana Teles, 826 - RJ`;
 
-// WhatsApp
-window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(mensagem)}`);
-
 // EmailJS
-emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+emailjs.send("service_61svzub","template_fdxrswb",{
   nome: nomeUser,
   email: email.value,
   mensagem: mensagem
