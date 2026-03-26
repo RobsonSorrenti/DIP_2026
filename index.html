@@ -2,43 +2,11 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>D.I.P 2026</title>
+
 <!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js">
-<div id="contador" style="margin-top:10px; font-size:16px; color:#ffeb3b;"></div>
-
-  <a href="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro" target="_blank">
-  <button>📍 Como chegar</button>
-</a>
-  
-<script>
-function atualizarContador() {
-  const dataEvento = new Date("2026-05-30T08:00:00");
-  const agora = new Date();
-  const diferenca = dataEvento - agora;
-
-  if (diferenca <= 0) {
-    document.getElementById("contador").innerHTML = "🔥 O evento já começou!";
-    return;
-  }
-
-  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
-  const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
-  const segundos = Math.floor((diferenca / 1000) % 60);
-
-  document.getElementById("contador").innerHTML =
-    `⏳ Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s`;
-}
-
-setInterval(atualizarContador, 1000);
-</script>
-  
-function voltarInicio(){
-  final.style.display='none';
-  inicio.style.display='block';
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function(){
   emailjs.init("zxg1A3foVUrwo8MgR");
@@ -59,13 +27,16 @@ body {
   align-items:center;
   height:100vh;
 }
+
 .container{
   background:rgba(0,0,0,0.85);
   padding:25px;
   border-radius:15px;
-  width:360px;
+  width:90%;
+  max-width:400px;
   text-align:center;
 }
+
 input,button{
   width:100%;
   padding:10px;
@@ -73,29 +44,48 @@ input,button{
   border:none;
   border-radius:8px;
 }
+
 button{
   background:#00c853;
   color:#fff;
   cursor:pointer;
+  transition:0.3s;
 }
+
+button:hover{
+  transform:scale(1.05);
+}
+
 .hidden{display:none;}
+
 iframe{
   width:100%;
   height:200px;
   border-radius:10px;
 }
+
 .logo{
   width:120px;
   margin:10px 0;
 }
+
 .social{
   display:flex;
   align-items:center;
   justify-content:center;
   gap:8px;
 }
+
 .social img{
   width:20px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  body { font-size:18px; }
+  h1 { font-size:32px; }
+  h2 { font-size:24px; }
+  input, button { font-size:16px; padding:12px; }
 }
 </style>
 </head>
@@ -104,70 +94,24 @@ iframe{
 
 <div class="container">
 
-<script>
-function abrirFormulario(){
-  inicio.style.display='none';
-  formulario.style.display='block';
-}
-
-function irPagamento(){
-  if(!nome.value||!nascimento.value||!email.value||!telefone.value){
-    alert('Preencha todos os campos');
-    return;
-  }
-  formulario.style.display='none';
-  pagamento.style.display='block';
-}
-
-function confirmar(){
-  let nomeUser = nome.value;
-  let tel = telefone.value.replace(/\D/g,'');
-
-  let mensagem = `Glória a Deus ${nomeUser}! Sua inscrição no D.I.P 2026 foi confirmada!\n📍 Rua Ana Teles, 826 - RJ`;
-
-  window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(mensagem)}`);
-
-  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
-    nome: nomeUser,
-    email: email.value,
-    mensagem: mensagem
-  });
-
-  pagamento.style.display='none';
-  final.style.display='block';
-}
-
-function voltarInicio(){
-  final.style.display='none';
-  inicio.style.display='block';
-}
-
-function copiarPix(){
-  const chave = document.getElementById("chavePix").value;
-  navigator.clipboard.writeText(chave);
-  alert("Chave Pix copiada!");
-}
-</script>
-  
 <!-- INÍCIO -->
 <div id="inicio">
-<h1 style="margin:0;">D.I.P.</h1>
-<h2 style="margin:0;">2026</h2>
+<h1>D.I.P.</h1>
+<h2>2026</h2>
 <p><strong>ADECAMP</strong></p>
 
-<!-- ⚠️ IMPORTANTE: troque pelo nome do seu arquivo -->
 <img src="logo.png" class="logo">
 
 <p>📅 30 e 31 de maio</p>
 
-<p style="font-size:14px; margin-top:10px;">
-  ⏰ <strong>30/05:</strong> 08h às 20h<br>
-  ⏰ <strong>31/05:</strong> 08h às 11h30
+<p style="font-size:14px;">
+⏰ <strong>30/05:</strong> 08h às 20h<br>
+⏰ <strong>31/05:</strong> 08h às 11h30
 </p>
 
-<p style="font-size:13px; margin-top:10px; color:#ffeb3b;">
-  🍽️ O pagamento inclui o almoço do dia 30
-</p>
+<p style="color:#ffeb3b;">🍽️ Inclui almoço dia 30</p>
+
+<div id="contador" style="color:#ffeb3b;"></div>
 
 <button onclick="abrirFormulario()">Clique aqui e faça seu cadastro</button>
 </div>
@@ -183,92 +127,58 @@ function copiarPix(){
 
 <!-- PAGAMENTO -->
 <div id="pagamento" class="hidden">
-  <h3>Pagamento do ingresso</h3>
-  <p><strong>Pix</strong></p>
+<h3>Pagamento do ingresso</h3>
 
-  <img src="qrcode.png" style="width:200px; border-radius:10px;">
+<p style="color:#ffeb3b; font-size:18px;">🎟️ R$ 30,00</p>
 
-  <p style="margin-top:10px; font-size:14px;">
-    Chave Pix (CNPJ):
-  </p>
+<p><strong>Pix</strong></p>
 
-  <input 
-    id="chavePix"
-    type="text" 
-    value="39.165.116/0001-69" 
-    readonly 
-    style="text-align:center; font-weight:bold;"
-  >
-<p style="font-size:18px; font-weight:bold; color:#ffeb3b;">
-  🎟️ Ingresso: R$ 30,00
-</p>
-  
-  <!-- BOTÃO COPIAR -->
-  <button onclick="copiarPix()">📋 Copiar chave Pix</button>
+<img src="qrcode.png" style="width:200px; border-radius:10px;">
 
-  <!-- AVISO -->
-  <div style="
-    background: #ffeb3b;
-    color: #000;
-    padding: 10px;
-    border-radius: 10px;
-    margin-top: 15px;
-    font-size: 14px;
-    text-align: left;
-  ">
+<input id="chavePix" type="text" value="39.165.116/0001-69" readonly>
 
-    <p><strong>⚠️ ATENÇÃO</strong></p>
+<button onclick="copiarPix()">📋 Copiar chave Pix</button>
 
-    <p>📲 Envie o comprovante para:</p>
-    <p>
-      <a href="https://wa.me/552133598007" target="_blank" style="color:#000; font-weight:bold;">
-        wa.me/552133598007
-      </a>
-    </p>
+<div style="background:#ffeb3b; color:#000; padding:10px; border-radius:10px; margin-top:10px; text-align:left;">
+<p><strong>⚠️ ATENÇÃO</strong></p>
+<p>Envie o comprovante:</p>
+<a href="https://wa.me/552133598007" target="_blank">wa.me/552133598007</a>
+<p><strong>Nome:</strong> Tesouraria da Igreja</p>
+<p><strong>Descrição:</strong> DIP 2026</p>
+</div>
 
-    <p>🏷️ Nome no comprovante:</p>
-    <p><strong>Tesouraria da Igreja</strong></p>
-
-    <p>📝 Descrição:</p>
-    <p><strong>DIP 2026</strong></p>
-
-  </div>
-
-  <button onclick="confirmar()">Já paguei</button>
+<button onclick="confirmar()">Já paguei</button>
 </div>
 
 <!-- FINAL -->
 <div id="final" class="hidden">
 <h3>🎉 Inscrição Confirmada!</h3>
+
 <p>Glória a Deus! Te esperamos 🙌</p>
 
 <p>📍 Rua Ana Teles, 826 - RJ</p>
 
 <iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
 
-<p>Confirmação enviada em seu Email</p>
+<a href="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro" target="_blank">
+<button>📍 Como chegar</button>
+</a>
 
 <p><strong>Nos siga:</strong></p>
 
 <div class="social">
-  <img src="instagran-50.png">
-  <a href="https://instagram.com/adecamprj" target="_blank" style="color:white; text-decoration:none;">
-    @adecamprj
-  </a>
+<img src="instagran-50.png">
+<a href="https://instagram.com/adecamprj" target="_blank">@adecamprj</a>
 </div>
 
 <div class="social">
-  <img src="facebook-50.png">
-  <a href="https://www.facebook.com/adecamp/" target="_blank" style="color:white; text-decoration:none;">
-    Assembleia de Deus em Campinho
-  </a>
+<img src="facebook-50.png">
+<a href="https://www.facebook.com/adecamp/" target="_blank">Facebook</a>
 </div>
 
 <div class="social">
-  <img src="youtube-50.png">
-  <a href="https://www.youtube.com/@adecamprjoficialpastorkleb9342/featured" target="_blank" style="color:white; text-decoration:none;">
-    ADECAMP RJ OFICIAL
-  </a>
+<img src="youtube-50.png">
+<a href="https://www.youtube.com/@adecamprjoficialpastorkleb9342/featured" target="_blank">YouTube</a>
 </div>
 
 <p>📧 adecamprj@gmail.com</p>
@@ -280,6 +190,26 @@ function copiarPix(){
 </div>
 
 <script>
+// CONTADOR
+setInterval(()=>{
+const data=new Date("2026-05-30T08:00:00");
+const now=new Date();
+const diff=data-now;
+
+if(diff<=0){
+contador.innerHTML="🔥 O evento começou!";
+return;
+}
+
+let d=Math.floor(diff/(1000*60*60*24));
+let h=Math.floor((diff/(1000*60*60))%24);
+let m=Math.floor((diff/(1000*60))%60);
+let s=Math.floor((diff/1000)%60);
+
+contador.innerHTML=`⏳ ${d}d ${h}h ${m}m ${s}s`;
+},1000);
+
+// FUNÇÕES
 function abrirFormulario(){
 inicio.style.display='none';
 formulario.style.display='block';
@@ -295,16 +225,17 @@ pagamento.style.display='block';
 }
 
 function confirmar(){
-let nomeUser = nome.value;
-let tel = telefone.value.replace(/\D/g,'');
+let nomeUser=nome.value;
+let tel=telefone.value.replace(/\D/g,'');
 
-let mensagem = `Glória a Deus ${nomeUser}! Sua inscrição no D.I.P 2026 foi confirmada!\n📍 Rua Ana Teles, 826 - RJ`;
+let msg=`Glória a Deus ${nomeUser}! Sua inscrição no DIP 2026 foi confirmada!`;
 
-// EmailJS
+window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(msg)}`);
+
 emailjs.send("service_61svzub","template_fdxrswb",{
-  nome: nomeUser,
-  email: email.value,
-  mensagem: mensagem
+nome:nomeUser,
+email:email.value,
+mensagem:msg
 });
 
 pagamento.style.display='none';
@@ -314,6 +245,11 @@ final.style.display='block';
 function voltarInicio(){
 final.style.display='none';
 inicio.style.display='block';
+}
+
+function copiarPix(){
+navigator.clipboard.writeText("39.165.116/0001-69");
+alert("Chave Pix copiada!");
 }
 </script>
 
