@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>D.I.P 2026</title>
+
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js">
+
+function voltarInicio(){
+  final.style.display='none';
+  inicio.style.display='block';
+}
+</script>
+<script>
+(function(){
+  emailjs.init("YOUR_PUBLIC_KEY");
+})();
+</script>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1507692049790-de58290a4334');
+  background-size: cover;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.container{
+  background:rgba(0,0,0,0.85);
+  padding:25px;
+  border-radius:15px;
+  width:360px;
+  text-align:center;
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border:none;
+  border-radius:8px;
+}
+button{
+  background:#00c853;
+  color:#fff;
+  cursor:pointer;
+}
+.hidden{display:none;}
+iframe{
+  width:100%;
+  height:200px;
+  border-radius:10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div id="inicio">
+<h1 style="margin:0;">D.I.P.</h1>
+<h2 style="margin:0;">2026</h2>
+<p><strong>ADECAMP</strong></p>
+<img src="/mnt/data/d127662e-412d-4533-b4a1-dba254bdeb7b.png" alt="Logo ADECAMP" style="width:120px;margin:10px 0;">
+<h2>D.I.P 2026</h2>
+<p>Domingo da Igreja Perseguida</p>
+<p>📅 31 de maio</p>
+<button onclick="abrirFormulario()">Clique aqui e faça seu cadastro</button>
+</div>
+
+<div id="formulario" class="hidden">
+<input id="nome" placeholder="Nome completo">
+<input id="nascimento" type="date">
+<input id="email" placeholder="E-mail">
+<input id="telefone" placeholder="Telefone">
+<button onclick="irPagamento()">Continuar</button>
+</div>
+
+<div id="pagamento" class="hidden">
+<p>Pagamento via Pix</p>
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SEU_PIX_AQUI">
+<button onclick="confirmar()">Já paguei</button>
+</div>
+
+<div id="final" class="hidden">
+<h3>🎉 Inscrição Confirmada!</h3>
+<p>Glória a Deus! Te esperamos 🙌</p>
+<p>📍 Rua Ana Teles, 826 - RJ</p>
+
+<iframe src="https://www.google.com/maps?q=Rua+Ana+Teles,+826,+Rio+de+Janeiro&output=embed"></iframe>
+
+<p>📲 Confirmação enviada no WhatsApp e Email</p>
+
+<p>📸 @adecamprj</p>
+<p>📘 Assembleia de Deus em Campinho</p>
+<p>▶️ ADECAMP RJ OFICIAL</p>
+
+<p>📧 adecamprj@gmail.com</p>
+<p>📞 (21) 3359-8007</p>
+<button onclick="voltarInicio()">🔙 Voltar ao início</button>
+</div>
+
+</div>
+
+<script>
+function abrirFormulario(){
+inicio.style.display='none';
+formulario.style.display='block';
+}
+
+function irPagamento(){
+if(!nome.value||!nascimento.value||!email.value||!telefone.value){
+alert('Preencha todos os campos');
+return;
+}
+formulario.style.display='none';
+pagamento.style.display='block';
+}
+
+function confirmar(){
+let nomeUser = nome.value;
+let tel = telefone.value.replace(/\D/g,'');
+
+let mensagem = `Glória a Deus ${nomeUser}! Sua inscrição no D.I.P 2026 foi confirmada!\n📍 Rua Ana Teles, 826 - RJ`;
+
+// WhatsApp
+window.open(`https://wa.me/55${tel}?text=${encodeURIComponent(mensagem)}`);
+
+// EmailJS
+emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",{
+  nome: nomeUser,
+  email: email.value,
+  mensagem: mensagem
+});
+
+pagamento.style.display='none';
+final.style.display='block';
+}
+</script>
+
+</body>
+</html>
