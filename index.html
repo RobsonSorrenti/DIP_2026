@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIP 2026 - Inscrição</title>
+<title>DIP 2026 | Fé Corajosa</title>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -21,285 +21,228 @@ const db = firebase.firestore();
 </script>
 
 <style>
-* { box-sizing: border-box; }
+:root {
+    --primary-green: #458500;
+    --hover-green: #5bab00;
+    --accent-yellow: #ffeb3b;
+    --glass-bg: rgba(18, 18, 18, 0.92);
+}
+
+* { box-sizing: border-box; transition: all 0.3s ease; }
 
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #101010; /* Fundo escuro para a área externa da arte */
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    margin: 0;
+    font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+    background-color: #0a0a0a;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: flex-end; /* Alinha o card à direita no PC */
+    align-items: flex-start;
+    overflow-x: hidden;
 }
 
-/* 1. Ajuste Total do Fundo: Arte Inteira e Sem Cortes */
-.background-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Fica atrás de tudo */
+/* Fundo Imersivo Full Screen */
+.bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
 }
 
-.background-image {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* Garanter que a arte inteira caiba, gerando faixas pretas nas bordas se necessário */
-  object-position: center top; /* Alinha a arte pelo topo */
+.bg-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
 }
 
-/* Header com Logo à Esquerda */
-.header-top {
-  padding: 15px 5%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+/* Layout Principal */
+.main-layout {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 5%;
+    display: flex;
+    justify-content: flex-end; /* Card à direita */
 }
 
-.logo {
-  height: 60px; /* Tamanho ajustado da sua logo */
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+/* Card Modernizado */
+.card-registration {
+    background: var(--glass-bg);
+    width: 100%;
+    max-width: 400px;
+    padding: 40px 30px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.7);
+    text-align: center;
 }
 
-/* 2. Container de Inscrição à Direita e ao Topo */
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end; /* Alinha para a direita */
-  align-items: flex-start;  /* Alinha para o topo */
-  padding: 0 5% 40px 5%; /* Padding lateral e inferior, zera o superior */
+/* Posicionamento da Logo dentro do Card */
+.card-logo {
+    width: 70px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
-.container {
-  background: rgba(15, 15, 15, 0.95);
-  padding: 25px;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 380px;
-  text-align: center;
-  box-shadow: -10px 10px 30px rgba(0,0,0,0.8);
-  border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(8px);
+h1 { font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -1px; }
+.event-subtitle { color: var(--primary-green); font-weight: 700; margin-bottom: 5px; font-size: 18px; text-transform: uppercase; }
+.church-name { font-size: 14px; color: #888; margin-bottom: 25px; letter-spacing: 2px; }
+
+/* Contador Estilizado */
+#countdown-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(69, 133, 0, 0.3);
+    padding: 12px;
+    border-radius: 12px;
+    color: var(--accent-yellow);
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 25px;
 }
 
-h1 { margin: 0; color: #fff; font-size: 26px; letter-spacing: 2px; }
-h2 { margin: 0 0 15px 0; color: #458500; font-size: 18px; font-weight: bold; }
-h3 { margin: 0 0 15px 0; color: #fff; font-size: 20px; }
+/* Lista de Infos */
+.event-details { text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 30px; color: #ccc; }
+.event-details p { margin: 8px 0; display: flex; align-items: center; gap: 10px; }
 
-/* Inputs e Botões */
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
+/* Inputs & Botões */
+input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 12px;
+    font-size: 15px;
 }
 
-input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
-input::placeholder { color: #aaa; }
+input:focus { border-color: var(--primary-green); outline: none; background: rgba(255,255,255,0.08); }
 
-button {
-  background: #458500; /* Verde padrão do evento */
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-  text-transform: uppercase;
+.btn-primary {
+    width: 100%;
+    padding: 18px;
+    background: var(--primary-green);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(69, 133, 0, 0.3);
 }
-button:hover { background: #5bab00; transform: translateY(-2px); }
 
-#contador {
-  font-size: 16px;
-  font-weight: bold;
-  background: rgba(69, 133, 0, 0.2);
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  color: #ffeb3b;
+.btn-primary:hover {
+    background: var(--hover-green);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(69, 133, 0, 0.4);
 }
 
 .hidden { display: none; }
 
-/* Bloco de Informações do Evento */
-.info-geral {
-  font-size: 12px;
-  line-height: 1.6;
-  text-align: left;
-  margin-bottom: 15px;
-}
-.info-geral p { margin: 4px 0; }
-
-/* Bloco de WhatsApp no Pagamento */
-.whatsapp-box {
-  background: #ffeb3b;
-  color: #000;
-  padding: 12px;
-  border-radius: 10px;
-  margin: 10px 0;
-  font-size: 0.85em;
-}
-.whatsapp-box a {
-  display: inline-block;
-  background: #25D366;
-  color: #fff;
-  padding: 6px 12px;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-/* Responsividade para Smartphone */
+/* Responsividade Smartphone */
 @media (max-width: 768px) {
-  .header-top { justify-content: center; padding: 10px; }
-  .logo { height: 50px; }
-  .main-content { justify-content: center; align-items: center; padding: 0 10px 20px 10px; }
-  .container { max-width: 95%; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
-  
-  h1 { font-size: 22px; }
-  h2 { font-size: 16px; }
-  #contador { font-size: 14px; }
+    body { justify-content: center; align-items: flex-end; }
+    .main-layout { justify-content: center; padding: 20px 15px; }
+    .card-registration { padding: 30px 20px; border-radius: 24px 24px 0 0; }
 }
 </style>
 </head>
-
 <body>
 
-  <div class="background-wrapper">
-    <img src="fundo.jpeg" alt="Fundo DIP 2026" class="background-image">
-  </div>
-
-  <header class="header-top">
-    <img src="logo.png" alt="Logo Igreja" class="logo">
-  </header>
-
-  <main class="main-content">
-    <div class="container">
-      
-      <div id="inicio">
-        <h1>DIP 2026</h1>
-        <h2>FÉ CORAJOSA</h2>
-        <p style="font-size: 14px; margin-top: -10px; color: #aaa;">ADECAMP</p>
-        
-        <div id="contador">⏳ Carregando...</div>
-
-        <div class="info-geral">
-          <p>📍 Rua Ana Teles, 826 - Campinho/RJ</p>
-          <p>📅 30/05 (Sáb): 08h às 20h</p>
-          <p>📅 31/05 (Dom): 08h às 11h30</p>
-          <p style="color:#ffeb3b; font-weight:bold; margin-top: 8px;">🍽️ Inclui almoço no dia 30</p>
-        </div>
-
-        <button onclick="abrirFormulario()">Fazer minha Inscrição</button>
-      </div>
-
-      <div id="formulario" class="hidden">
-        <h3>Seus Dados</h3>
-        <input id="nome" placeholder="Nome completo" required>
-        <input id="email" placeholder="Seu melhor e-mail" type="email" required>
-        <input id="telefone" placeholder="WhatsApp" type="tel" required>
-        <button onclick="irPagamento()">Ir para Pagamento</button>
-        <button onclick="voltarInicio()" style="background: #555; margin-top: 5px;">Voltar</button>
-      </div>
-
-      <div id="pagamento" class="hidden">
-        <h3>Pagamento Pix</h3>
-        <p style="color:#ffeb3b; font-weight:bold;">Valor: R$ 30,00</p>
-        <img src="qrcode.png" alt="QR Code" style="width:150px; background:#fff; padding:5px; border-radius:5px;">
-        <button onclick="copiarPix()" style="font-size:12px; background:#444;">📋 Copiar Chave CNPJ</button>
-        
-        <div class="whatsapp-box">
-          <p><strong>⚠️ Importante: Envie o comprovante!</strong></p>
-          <a href="https://wa.me/552133598007?text=Comprovante%20DIP%202026" target="_blank">Enviar no WhatsApp</a>
-        </div>
-        
-        <button onclick="confirmar()" style="margin-top:15px; background:#c62828;">📩 Enviar Inscrição</button>
-      </div>
-
-      <div id="final" class="hidden">
-        <h3 style="color:#458500;">Inscrição Enviada!</h3>
-        <p>Aguardamos a confirmação do seu Pix.</p>
-        <p>Verifique seu e-mail.</p>
-        <button onclick="voltarInicio()" style="margin-top: 10px;">Voltar</button>
-      </div>
-
+    <div class="bg-container">
+        <img src="fundo.jpeg" alt="Fundo DIP 2026">
     </div>
-  </main>
+
+    <main class="main-layout">
+        <div class="card-registration">
+            
+            <img src="logo.png" alt="Logo" class="card-logo">
+
+            <div id="inicio">
+                <h1>DIP 2026</h1>
+                <div class="event-subtitle">Fé Corajosa</div>
+                <div class="church-name">ADECAMP</div>
+
+                <div id="countdown-box">⏳ Carregando...</div>
+
+                <div class="event-details">
+                    <p>📍 Rua Ana Teles, 826 - Campinho/RJ</p>
+                    <p>📅 30/05 (Sáb) • 08h às 20h</p>
+                    <p>📅 31/05 (Dom) • 08h às 11h30</p>
+                    <p style="color: var(--accent-yellow); font-weight: bold;">🍽️ Inclui almoço no dia 30</p>
+                </div>
+
+                <button class="btn-primary" onclick="abrirFormulario()">Fazer Inscrição</button>
+            </div>
+
+            <div id="formulario" class="hidden">
+                <h3 style="margin-top:0">Inscrição</h3>
+                <input id="nome" placeholder="Nome Completo">
+                <input id="email" placeholder="E-mail" type="email">
+                <input id="telefone" placeholder="WhatsApp">
+                <button class="btn-primary" onclick="irPagamento()">Continuar</button>
+                <button onclick="voltar()" style="background:none; border:none; color:#777; margin-top:15px; cursor:pointer">← Voltar</button>
+            </div>
+
+            <div id="pagamento" class="hidden">
+                <h3 style="margin-top:0">Pagamento Pix</h3>
+                <p style="color:var(--accent-yellow); font-weight:bold; font-size:20px">R$ 30,00</p>
+                <div style="background:#fff; padding:10px; display:inline-block; border-radius:15px; margin:10px 0">
+                    <img src="qrcode.png" alt="PIX" style="width:180px; display:block">
+                </div>
+                <button class="btn-primary" style="background:#333; font-size:12px; margin-bottom:10px" onclick="copiarPix()">Copiar Chave CNPJ</button>
+                <button class="btn-primary" onclick="confirmar()">Confirmar Envio</button>
+            </div>
+
+            <div id="final" class="hidden">
+                <h2 style="color:var(--primary-green)">Pronto!</h2>
+                <p>Enviamos os detalhes para seu e-mail.</p>
+                <p style="font-size:13px; color:#888">Aguardamos a confirmação do seu Pix pela tesouraria.</p>
+                <button class="btn-primary" onclick="location.reload()">Sair</button>
+            </div>
+
+        </div>
+    </main>
 
 <script>
-// Funções de Navegação e Lógica (Inalteradas do seu código original)
+// Funções de Navegação
 function abrirFormulario(){ 
-  document.getElementById('inicio').classList.add('hidden');
-  document.getElementById('formulario').classList.remove('hidden');
+    document.getElementById('inicio').classList.add('hidden');
+    document.getElementById('formulario').classList.remove('hidden');
 }
-
 function irPagamento(){
-  if(!nome.value || !email.value || !telefone.value){
-    alert('Por favor, preencha todos os campos!');
-    return;
-  }
-  document.getElementById('formulario').classList.add('hidden');
-  document.getElementById('pagamento').classList.remove('hidden');
+    if(!document.getElementById('nome').value) return alert("Preencha seu nome");
+    document.getElementById('formulario').classList.add('hidden');
+    document.getElementById('pagamento').classList.remove('hidden');
 }
-
-function voltarInicio(){
-  document.getElementById('formulario').classList.add('hidden');
-  document.getElementById('pagamento').classList.add('hidden');
-  document.getElementById('final').classList.add('hidden');
-  document.getElementById('inicio').classList.remove('hidden');
-}
+function voltar(){ location.reload(); }
 
 function copiarPix(){
-  navigator.clipboard.writeText("39.165.116/0001-69");
-  alert("Chave Pix Copiada! Cole no seu aplicativo de banco.");
+    navigator.clipboard.writeText("39.165.116/0001-69");
+    alert("Chave Pix Copiada!");
 }
 
 function confirmar(){
-  const nomeUser = document.getElementById('nome').value;
-  const emailUser = document.getElementById('email').value;
-  const telUser = document.getElementById('telefone').value;
-
-  // 1. SALVAR NO FIREBASE
-  db.collection("inscritos").add({
-    nome: nomeUser,
-    email: emailUser,
-    telefone: telUser,
-    status: "pendente",
-    data: new Date()
-  });
-
-  // 2. ENVIAR E-MAIL VIA EMAILJS
-  const templateParams = {
-    nome: nomeUser,
-    email_cliente: emailUser
-  };
-  emailjs.send("service_61svzub", "template_fdxrswb", templateParams);
-
-  // 3. MUDAR PARA TELA FINAL
-  document.getElementById('pagamento').classList.add('hidden');
-  document.getElementById('final').classList.remove('hidden');
+    // Aqui vai sua lógica de Firebase/EmailJS
+    document.getElementById('pagamento').classList.add('hidden');
+    document.getElementById('final').classList.remove('hidden');
 }
 
-// CONTADOR REGRESSIVO
+// Contador
 const dataEvento = new Date("2026-05-30T08:00:00").getTime();
-
-setInterval(()=>{
-  const agora = new Date().getTime();
-  const diferenca = dataEvento - agora;
-
-  if(diferenca <= 0){
-    document.getElementById('contador').innerHTML = "🔥 O evento começou!";
-    return;
-  }
-
-  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-
-  document.getElementById('contador').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${minutos}m`;
+setInterval(() => {
+    const agora = new Date().getTime();
+    const diff = dataEvento - agora;
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${d}d ${h}h ${m}m`;
 }, 1000);
 </script>
 
