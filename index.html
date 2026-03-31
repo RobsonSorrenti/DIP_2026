@@ -23,7 +23,7 @@
     </script>
 
     <style>
-        /* --- ESTILOS DE RESET E BASE --- */
+        /* --- VARIÁVEIS E RESET --- */
         :root {
             --primary-green: #458500;
             --hover-green: #5bab00;
@@ -41,7 +41,7 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-white);
             min-height: 100vh;
@@ -50,24 +50,20 @@
             overflow-x: hidden;
         }
 
-        /* --- Fundo Imersivo (A Arte do DIP) --- */
+        /* --- BACKGROUND --- */
         .bg-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2; /* Fica atrás de tudo */
+            z-index: -2;
         }
-
         .bg-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Preenche a tela mantendo proporção */
-            object-position: center; /* Centraliza a imagem */
+            object-fit: cover;
         }
-
-        /* Camada de escurecimento para contraste (Overlay) */
         .bg-overlay {
             position: fixed;
             top: 0;
@@ -78,58 +74,57 @@
             z-index: -1;
         }
 
-        /* --- LAYOUT PRINCIPAL (A Mágica do Posicionamento) --- */
+        /* --- LAYOUT --- */
         .main-layout {
             flex: 1;
             display: grid;
-            grid-template-columns: 1.2fr 1fr; /* Esquerda maior para o DIP, direita para o Card */
-            align-items: center; /* Centraliza verticalmente */
+            grid-template-columns: 1.2fr 1fr;
+            align-items: center;
             padding: 40px 8%;
             gap: 40px;
         }
 
-        /* Lado Esquerdo (Texto do DIP e Logo no Topo) */
+        /* --- CONTEÚDO ESQUERDA (DIP + LOGO) --- */
         .left-content {
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Logo no topo, DIP na base */
+            justify-content: center;
             height: 100%;
-            padding: 20px 0;
         }
 
-        .logo-igreja {
-            height: 70px;
+        .title-logo-flex {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+
+        .inline-logo {
+            height: 80px;
             width: auto;
-            align-self: flex-start;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-        }
-
-        .dip-text-group {
-            margin-top: auto; /* Empurra para a base */
-            text-align: left;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
         }
 
         .dip-title {
-            font-size: 80px;
+            font-size: 85px;
             font-weight: 900;
             line-height: 1;
             letter-spacing: -3px;
-            margin-bottom: 5px;
         }
 
         .dip-subtitle {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
-            color: var(--text-white);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
+            opacity: 0.9;
+            margin-bottom: 5px;
         }
 
-        /* Lado Direito (Card de Inscrição conforme Imagem 7) */
+        /* --- CARD DIREITA --- */
         .right-content {
             display: flex;
-            justify-content: flex-end; /* Card colado à direita */
-            align-items: center;
+            justify-content: flex-end;
         }
 
         .card-registration {
@@ -139,32 +134,26 @@
             padding: 40px;
             border-radius: 24px;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             box-shadow: -15px 15px 40px rgba(0, 0, 0, 0.6);
             text-align: center;
         }
 
-        /* Typography do Card */
-        h2.card-title { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
-        .card-subtitle { color: var(--primary-green); font-weight: 700; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; }
-        
-        /* Contador Estilizado (Cores e Margem conforme Imagem 7) */
         #countdown-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(69, 133, 0, 0.4);
             padding: 12px;
             border-radius: 12px;
-            color: #ffeb3b; /* Amarelo */
+            color: #ffeb3b;
             font-weight: 700;
             font-size: 18px;
             margin-bottom: 25px;
         }
 
-        /* Detalhes do Evento conforme Imagem 7 */
-        .event-details { text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 30px; color: #ccc; }
-        .event-details p { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
+        .event-details { text-align: left; font-size: 14px; line-height: 1.8; margin-bottom: 30px; color: #ccc; }
+        .event-details p { margin: 8px 0; display: flex; align-items: center; gap: 10px; }
 
-        /* Botão Principal Estilizado */
+        /* --- BOTÕES E INPUTS --- */
         .btn-primary {
             width: 100%;
             padding: 18px;
@@ -173,19 +162,11 @@
             border: none;
             border-radius: 12px;
             font-weight: 800;
-            font-size: 16px;
             text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(69, 133, 0, 0.3);
         }
+        .btn-primary:hover { background: var(--hover-green); transform: translateY(-2px); }
 
-        .btn-primary:hover {
-            background: var(--hover-green);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(69, 133, 0, 0.4);
-        }
-
-        /* Inputs e Botão de Voltar do Formulário */
         input {
             width: 100%;
             padding: 15px;
@@ -194,78 +175,49 @@
             border-radius: 10px;
             color: #fff;
             margin-bottom: 12px;
-            font-size: 15px;
         }
-        input:focus { border-color: var(--primary-green); outline: none; }
 
         .hidden { display: none; }
 
-        /* --- RESPONSIVIDADE (Smartphone) --- */
+        /* --- RESPONSIVIDADE --- */
         @media (max-width: 992px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding: 20px;
-                margin-top: 80px;
-            }
-
-            .left-content {
-                height: auto;
-                align-items: center;
-                margin-bottom: 30px;
-            }
-
-            .logo-igreja {
-                position: absolute;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-
-            .dip-text-group { text-align: center; margin-top: 0; }
-            .dip-title { font-size: 50px; }
-            .dip-subtitle { font-size: 18px; }
-
+            .main-layout { grid-template-columns: 1fr; padding: 20px; text-align: center; margin-top: 50px; }
+            .title-logo-flex { justify-content: center; flex-direction: column; }
+            .dip-title { font-size: 60px; }
             .right-content { justify-content: center; }
-            .card-registration { border-radius: 24px; padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-container">
-        <img src="fundo.png">
+        <img src="fundo.png" alt="Fundo">
     </div>
     <div class="bg-overlay"></div>
 
     <main class="main-layout">
         
         <div class="left-content">
-            <img src="logo.png" alt="Logo Igreja" class="logo-igreja">
-            
             <div class="dip-text-group">
-                <div class="dip-title">DIP 2026</div>
+                <div class="title-logo-flex">
+                    <img src="logo.png" alt="Logo Igreja" class="inline-logo">
+                    <h1 class="dip-title">DIP 2026</h1>
+                </div>
                 <div class="dip-subtitle">Fé Corajosa</div>
-                <div class="dip-subtitle"> No Oriente Médio e Norte da África </div>
+                <div class="dip-subtitle">No Oriente Médio e Norte da África</div>
             </div>
         </div>
 
         <div class="right-content">
             <div class="card-registration">
-                
                 <div id="inicio">
-                    <h2 class="card-title">DIP 2026</h2>
-                    <div class="card-subtitle">Fé Corajosa</div>
-                    <div class="card-subtitle">No Oriente Médio e Norte da África </div>
                     <div id="countdown-box">⏳ Carregando...</div>
-
                     <div class="event-details">
                         <p>📍 Rua Ana Teles, 826 - Campinho/RJ</p>
                         <p>📅 30/05 (Sáb) • 08h às 20h</p>
                         <p>📅 31/05 (Dom) • 08h às 11h30</p>
                         <p style="color: #ffeb3b; font-weight: bold;">🍽️ Inclui almoço no dia 30</p>
                     </div>
-
                     <button class="btn-primary" onclick="abrirFormulario()">Fazer Inscrição</button>
                 </div>
 
@@ -291,59 +243,44 @@
                 <div id="final" class="hidden">
                     <h2 style="color:var(--primary-green); margin-bottom: 10px;">Pronto!</h2>
                     <p>Enviamos os detalhes para seu e-mail.</p>
-                    <p style="font-size:13px; color:#888; margin-top: 10px;">Aguardamos a confirmação do seu Pix pela tesouraria.</p>
                     <button class="btn-primary" style="margin-top: 20px;" onclick="location.reload()">Voltar</button>
                 </div>
-
             </div>
         </div>
-
     </main>
 
     <script>
-        // --- FUNÇÕES DE NAVEGAÇÃO ---
         function abrirFormulario(){ 
             document.getElementById('inicio').classList.add('hidden');
             document.getElementById('formulario').classList.remove('hidden');
         }
         function irPagamento(){
-            // Validação simples
-            if(!document.getElementById('nome').value) return alert("Por favor, preencha seu nome completo.");
+            if(!document.getElementById('nome').value) return alert("Por favor, preencha seu nome.");
             document.getElementById('formulario').classList.add('hidden');
             document.getElementById('pagamento').classList.remove('hidden');
         }
         function voltarInicio(){ location.reload(); }
-
         function copiarPix(){
             navigator.clipboard.writeText("39.165.116/0001-69");
-            alert("Chave Pix Copiada! Cole no seu aplicativo de banco.");
+            alert("Chave Pix Copiada!");
         }
-
         function confirmar(){
-            // --- INSIRA AQUI SUA LÓGICA DE FIREBASE E EMAILJS ---
-            // Esta função deve salvar os dados e disparar o e-mail.
-            // Para este exemplo, apenas avançamos para a tela final.
             document.getElementById('pagamento').classList.add('hidden');
             document.getElementById('final').classList.remove('hidden');
         }
 
-        // --- CONTADOR REGRESSIVO ---
         const dataEvento = new Date("2026-05-30T08:00:00").getTime();
-        
         setInterval(() => {
             const agora = new Date().getTime();
             const diferenca = dataEvento - agora;
-
             if(diferenca <= 0){
                 document.getElementById('countdown-box').innerHTML = "🔥 O EVENTO COMEÇOU!";
                 return;
             }
-
             const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
             const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${m}m`;
+            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${minutos}m`;
         }, 1000);
     </script>
 </body>
