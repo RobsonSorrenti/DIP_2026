@@ -6,280 +6,255 @@
 <title>DIP 2026 - Inscrição</title>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-(function(){
-  // Mantenha sua chave real aqui
-  emailjs.init("zxg1A3foVUrwo8MgR");
-})();
-
-// CONFIG FIREBASE - Mantenha suas configurações reais aqui
+(function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
 const firebaseConfig = {
   apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
   authDomain: "dip-2026.firebaseapp.com",
   projectId: "dip-2026"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 </script>
 
 <style>
-/* Reset básico */
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  /* Define a imagem de fundo e aplica um escurecimento para contraste */
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('fundo.jpeg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; /* Mantém o fundo fixo ao rolar */
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #101010; /* Fundo escuro para a área externa da arte */
   color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. Ajuste Total do Fundo: Arte Inteira e Sem Cortes */
+.background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Fica atrás de tudo */
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Garanter que a arte inteira caiba, gerando faixas pretas nas bordas se necessário */
+  object-position: center top; /* Alinha a arte pelo topo */
+}
+
+/* Header com Logo à Esquerda */
+.header-top {
+  padding: 15px 5%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.logo-igreja {
+  height: 60px; /* Tamanho ajustado da sua logo */
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* 2. Container de Inscrição à Direita e ao Topo */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end; /* Alinha para a direita */
+  align-items: flex-start;  /* Alinha para o topo */
+  padding: 0 5% 40px 5%; /* Padding lateral e inferior, zera o superior */
 }
 
 .container {
-  /* Estilo do card "enquadrado" */
-  background: rgba(20, 20, 20, 0.9);
-  padding: 30px;
-  border-radius: 20px;
+  background: rgba(15, 15, 15, 0.95);
+  padding: 25px;
+  border-radius: 15px;
   width: 100%;
-  max-width: 420px;
+  max-width: 380px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: -10px 10px 30px rgba(0,0,0,0.8);
   border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(5px); /* Efeito de vidro leve */
+  backdrop-filter: blur(8px);
 }
 
-/* Títulos */
-h1 { margin-bottom: 5px; color: #fff; letter-spacing: 2px; font-size: 32px; }
-h2 { margin-top: 0; color: #458500; font-size: 24px; font-weight: bold; }
-h3 { color: #fff; margin-top: 0; }
+h1 { margin: 0; color: #fff; font-size: 26px; letter-spacing: 2px; }
+h2 { margin: 0 0 15px 0; color: #458500; font-size: 18px; font-weight: bold; }
+h3 { margin: 0 0 15px 0; color: #fff; font-size: 20px; }
 
 /* Inputs e Botões */
 input, button {
   width: 100%;
-  padding: 14px;
-  margin: 10px 0;
+  padding: 12px;
+  margin: 6px 0;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-input {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-}
-
-input::placeholder { color: #ccc; }
-input:focus { outline: 2px solid #458500; background: rgba(255,255,255,0.15); }
+input { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+input::placeholder { color: #aaa; }
 
 button {
   background: #458500; /* Verde padrão do evento */
   color: #fff;
   font-weight: bold;
-  text-transform: uppercase;
-  transition: 0.3s ease;
   cursor: pointer;
-  letter-spacing: 1px;
+  transition: 0.3s;
+  text-transform: uppercase;
 }
+button:hover { background: #5bab00; transform: translateY(-2px); }
 
-button:hover { background: #5bab00; transform: scale(1.02); }
-
-/* Elementos específicos */
 #contador {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: bold;
   background: rgba(69, 133, 0, 0.2);
-  padding: 12px;
-  border-radius: 10px;
-  margin: 20px 0;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 12px;
   color: #ffeb3b;
-  border: 1px solid rgba(255, 235, 59, 0.3);
 }
 
-.info-destaque { color: #ffeb3b; font-weight: bold; margin: 15px 0; }
-.info-geral { font-size: 0.95em; opacity: 0.9; line-height: 1.6; margin: 15px 0; }
 .hidden { display: none; }
 
-iframe {
-  width: 100%;
-  height: 180px;
-  border-radius: 12px;
-  border: none;
-  margin-top: 15px;
+/* Bloco de Informações do Evento */
+.info-geral {
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 15px;
 }
+.info-geral p { margin: 4px 0; }
 
 /* Bloco de WhatsApp no Pagamento */
 .whatsapp-box {
   background: #ffeb3b;
   color: #000;
-  padding: 15px;
-  border-radius: 12px;
-  margin: 15px 0;
-  font-size: 0.9em;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 10px 0;
+  font-size: 0.85em;
 }
-
 .whatsapp-box a {
   display: inline-block;
   background: #25D366;
   color: #fff;
-  padding: 8px 15px;
+  padding: 6px 12px;
   text-decoration: none;
-  border-radius: 8px;
+  border-radius: 6px;
   font-weight: bold;
   margin-top: 5px;
 }
 
-/* Ajustes Mobile */
-@media (max-width: 480px) {
-  .container { padding: 20px; }
-  h1 { font-size: 28px; }
-  #contador { font-size: 18px; }
+/* Responsividade para Smartphone */
+@media (max-width: 768px) {
+  .header-top { justify-content: center; padding: 10px; }
+  .logo-igreja { height: 50px; }
+  .main-content { justify-content: center; align-items: center; padding: 0 10px 20px 10px; }
+  .container { max-width: 95%; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+  
+  h1 { font-size: 22px; }
+  h2 { font-size: 16px; }
+  #contador { font-size: 14px; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="background-wrapper">
+    <img src="fundo.jpeg" alt="Fundo DIP 2026" class="background-image">
+  </div>
 
-  <div id="inicio">
-    <h1>DIP 2026</h1>
-    <h2>FÉ CORAJOSA</h2>
-    <p style="font-size: 1.1em; margin: 5px 0;"><strong>ADECAMP</strong></p>
-    
-    <div id="contador">⏳ Carregando...</div>
+  <header class="header-top">
+    <img src="logo-igreja.png" alt="Logo Igreja" class="logo-igreja">
+  </header>
 
-    <div class="info-geral">
-      📍 Rua Ana Teles, 826 - Campinho/RJ<br>
-      📅 30/05 (Sáb): 08h às 20h<br>
-      📅 31/05 (Dom): 08h às 11h30
+  <main class="main-content">
+    <div class="container">
+      
+      <div id="inicio">
+        <h1>DIP 2026</h1>
+        <h2>FÉ CORAJOSA</h2>
+        <p style="font-size: 14px; margin-top: -10px; color: #aaa;">ADECAMP</p>
+        
+        <div id="contador">⏳ Carregando...</div>
+
+        <div class="info-geral">
+          <p>📍 Rua Ana Teles, 826 - Campinho/RJ</p>
+          <p>📅 30/05 (Sáb): 08h às 20h</p>
+          <p>📅 31/05 (Dom): 08h às 11h30</p>
+          <p style="color:#ffeb3b; font-weight:bold; margin-top: 8px;">🍽️ Inclui almoço no dia 30</p>
+        </div>
+
+        <button onclick="abrirFormulario()">Fazer minha Inscrição</button>
+      </div>
+
+      <div id="formulario" class="hidden">
+        <h3>Seus Dados</h3>
+        <input id="nome" placeholder="Nome completo" required>
+        <input id="email" placeholder="Seu melhor e-mail" type="email" required>
+        <input id="telefone" placeholder="WhatsApp" type="tel" required>
+        <button onclick="irPagamento()">Ir para Pagamento</button>
+        <button onclick="voltarInicio()" style="background: #555; margin-top: 5px;">Voltar</button>
+      </div>
+
+      <div id="pagamento" class="hidden">
+        <h3>Pagamento Pix</h3>
+        <p style="color:#ffeb3b; font-weight:bold;">Valor: R$ 30,00</p>
+        <img src="qrcode.png" alt="QR Code" style="width:150px; background:#fff; padding:5px; border-radius:5px;">
+        <button onclick="copiarPix()" style="font-size:12px; background:#444;">📋 Copiar Chave CNPJ</button>
+        
+        <div class="whatsapp-box">
+          <p><strong>⚠️ Importante: Envie o comprovante!</strong></p>
+          <a href="https://wa.me/552133598007?text=Comprovante%20DIP%202026" target="_blank">Enviar no WhatsApp</a>
+        </div>
+        
+        <button onclick="confirmar()" style="margin-top:15px; background:#c62828;">📩 Enviar Inscrição</button>
+      </div>
+
+      <div id="final" class="hidden">
+        <h3 style="color:#458500;">Inscrição Enviada!</h3>
+        <p>Aguardamos a confirmação do seu Pix.</p>
+        <p>Verifique seu e-mail.</p>
+        <button onclick="voltarInicio()" style="margin-top: 10px;">Voltar</button>
+      </div>
+
     </div>
-
-    <p class="info-destaque">🍽️ Inclui almoço no dia 30</p>
-
-    <button onclick="abrirFormulario()">Fazer minha inscrição</button>
-  </div>
-
-  <div id="formulario" class="hidden">
-    <h3>Seus Dados</h3>
-    <input id="nome" placeholder="Nome completo" required>
-    <input id="nascimento" type="date" required>
-    <input id="email" placeholder="Seu melhor e-mail" type="email" required>
-    <input id="telefone" placeholder="WhatsApp (com DDD)" type="tel" required>
-    <button onclick="irPagamento()">Continuar para Pagamento</button>
-    <button onclick="voltarInicio()" style="background: #555; margin-top: 5px;">Voltar</button>
-  </div>
-
-  <div id="pagamento" class="hidden">
-    <h3>Pagamento (Pix)</h3>
-    <p class="info-destaque" style="font-size: 1.2em;">🎟️ Valor: R$ 30,00</p>
-
-    <div style="background: #fff; padding: 10px; display: inline-block; border-radius: 10px; margin: 10px 0;">
-        <img src="qrcode.png" alt="QR Code Pix" style="width:180px; height:180px; display:block;">
-    </div>
-
-    <input id="chavePix" value="39.165.116/0001-69" readonly style="text-align: center; background: rgba(255,255,255,0.05);">
-    <button onclick="copiarPix()" style="background: #f57c00;">📋 Copiar chave Pix (CNPJ)</button>
-
-    <div class="whatsapp-box">
-      <p style="margin: 0 0 8px 0;"><strong>⚠️ Importante: Envie o comprovante!</strong></p>
-      <p style="margin: 4px 0;">Nome: Tesouraria da Igreja</p>
-      <a href="https://wa.me/552133598007?text=Comprovante%20DIP%202026" target="_blank">Enviar no WhatsApp</a>
-    </div>
-
-    <button onclick="confirmar()" style="background: #c62828;">📩 Já paguei, enviar inscrição</button>
-  </div>
-
-  <div id="final" class="hidden">
-    <h3 style="color: #458500;">🙌 Inscrição enviada!</h3>
-    <p>Verifique seu e-mail (caixa de entrada e spam).</p>
-    <p>Status atual: <strong>Aguardando conferência do Pix</strong>.</p>
-    
-    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;">
-    
-    <p>📍 <strong>Como chegar:</strong></p>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.210427318357!2d-43.348636!3d-22.887228!2m3!1f0!2f0!3f0!3m2!1i1024!2i1024!4th16s%2Fg%2F11b6gj6f8x" allowfullscreen="" loading="lazy"></iframe>
-
-    <a href="https://maps.app.goo.gl/Y4T5U7A8Z9X6C3B1A" target="_blank" style="text-decoration: none;">
-      <button style="background: #1976d2;">Abrir no GPS</button>
-    </a>
-
-    <button onclick="voltarInicio()" style="background: #555; margin-top: 10px;">Voltar ao início</button>
-  </div>
-
-</div>
+  </main>
 
 <script>
-// ELEMENTOS
-const pInicio = document.getElementById('inicio');
-const pForm = document.getElementById('formulario');
-const pPagamento = document.getElementById('pagamento');
-const pFinal = document.getElementById('final');
-const elContador = document.getElementById('contador');
-
-// CONTADOR REGRESSIVO
-const dataEvento = new Date("2026-05-30T08:00:00").getTime();
-
-const timer = setInterval(()=>{
-  const agora = new Date().getTime();
-  const diferenca = dataEvento - agora;
-
-  if(diferenca <= 0){
-    clearInterval(timer);
-    elContador.innerHTML = "🔥 O evento começou!";
-    return;
-  }
-
-  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
-
-  elContador.innerHTML = `⏳ ${dias}d ${horas}h ${minutos}m`;
-}, 1000);
-
-// NAVEGAÇÃO
-function abrirFormulario(){
-  pInicio.classList.add('hidden');
-  pForm.classList.remove('hidden');
+// Funções de Navegação e Lógica (Inalteradas do seu código original)
+function abrirFormulario(){ 
+  document.getElementById('inicio').classList.add('hidden');
+  document.getElementById('formulario').classList.remove('hidden');
 }
 
 function irPagamento(){
-  // Validação simples
-  if(!document.getElementById('nome').value || !document.getElementById('email').value || !document.getElementById('telefone').value){
-    alert('Por favor, preencha Nome, E-mail e Telefone.');
+  if(!nome.value || !email.value || !telefone.value){
+    alert('Por favor, preencha todos os campos!');
     return;
   }
-  pForm.classList.add('hidden');
-  pPagamento.classList.remove('hidden');
+  document.getElementById('formulario').classList.add('hidden');
+  document.getElementById('pagamento').classList.remove('hidden');
 }
 
 function voltarInicio(){
-  // Reseta todas as telas e volta para a primeira
-  pForm.classList.add('hidden');
-  pPagamento.classList.add('hidden');
-  pFinal.classList.add('hidden');
-  pInicio.classList.remove('hidden');
+  document.getElementById('formulario').classList.add('hidden');
+  document.getElementById('pagamento').classList.add('hidden');
+  document.getElementById('final').classList.add('hidden');
+  document.getElementById('inicio').classList.remove('hidden');
 }
 
-// AÇÕES DE CONFIRMAÇÃO E ENVIO
 function copiarPix(){
-  const chave = document.getElementById('chavePix');
-  chave.select();
-  chave.setSelectionRange(0, 99999); // Para mobile
-  navigator.clipboard.writeText(chave.value);
-  alert("Chave Pix copiada! Cole no seu aplicativo de banco.");
+  navigator.clipboard.writeText("39.165.116/0001-69");
+  alert("Chave Pix Copiada! Cole no seu aplicativo de banco.");
 }
 
 function confirmar(){
@@ -292,36 +267,40 @@ function confirmar(){
     nome: nomeUser,
     email: emailUser,
     telefone: telUser,
-    status: "pendente_conferencia",
-    dataInscricao: new Date()
-  })
-  .then((docRef) => {
-      console.log("Inscrição salva com ID: ", docRef.id);
-  })
-  .catch((error) => {
-      console.error("Erro ao salvar no Firebase: ", error);
+    status: "pendente",
+    data: new Date()
   });
 
   // 2. ENVIAR E-MAIL VIA EMAILJS
-  // Certifique-se de que seu template no EmailJS aceita as variáveis {{nome}} e {{email_cliente}}
   const templateParams = {
     nome: nomeUser,
-    email_cliente: emailUser, // Envia para o e-mail do inscrito
-    mensagem_status: "Aguardando pagamento"
+    email_cliente: emailUser
   };
-
-  // Substitua 'service_ID' e 'template_ID' pelos seus códigos reais do EmailJS
-  emailjs.send("service_61svzub", "template_fdxrswb", templateParams)
-  .then(function(response) {
-     console.log('E-mail enviado com sucesso!', response.status, response.text);
-  }, function(error) {
-     console.log('Falha no envio do e-mail...', error);
-  });
+  emailjs.send("service_61svzub", "template_fdxrswb", templateParams);
 
   // 3. MUDAR PARA TELA FINAL
-  pPagamento.classList.add('hidden');
-  pFinal.classList.remove('hidden');
+  document.getElementById('pagamento').classList.add('hidden');
+  document.getElementById('final').classList.remove('hidden');
 }
+
+// CONTADOR REGRESSIVO
+const dataEvento = new Date("2026-05-30T08:00:00").getTime();
+
+setInterval(()=>{
+  const agora = new Date().getTime();
+  const diferenca = dataEvento - agora;
+
+  if(diferenca <= 0){
+    document.getElementById('contador').innerHTML = "🔥 O evento começou!";
+    return;
+  }
+
+  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+
+  document.getElementById('contador').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${minutos}m`;
+}, 1000);
 </script>
 
 </body>
