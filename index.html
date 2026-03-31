@@ -1,225 +1,264 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIP 2026 | Fé Corajosa</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIP 2026 | Fé Corajosa</title>
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <script>
-        // Inicialização com suas chaves reais
-        (function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
+<!-- EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
-            authDomain: "dip-2026.firebaseapp.com",
-            projectId: "dip-2026"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-    </script>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <style>
-        :root {
-            --primary-green: #458500;
-            --hover-green: #5bab00;
-            --bg-dark: #0a0a0a;
-            --text-white: #ffffff;
-            --card-bg: rgba(18, 18, 18, 0.95);
-        }
+<script>
+(function(){
+  emailjs.init("zxg1A3foVUrwo8MgR");
+})();
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
+const firebaseConfig = {
+  apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
+  authDomain: "dip-2026.firebaseapp.com",
+  projectId: "dip-2026"
+};
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
 
-        .bg-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-        .bg-container img { width: 100%; height: 100%; object-fit: cover; }
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.8));
-            z-index: -1;
-        }
+<style>
+:root {
+  --primary: #458500;
+  --hover: #5bab00;
+}
 
-        .main-layout {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            align-items: center;
-            padding: 40px 8%;
-            gap: 40px;
-        }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        .left-content { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding-bottom: 50px; }
-        .title-logo-flex { display: flex; align-items: center; gap: 20px; margin-bottom: 10px; }
-        .inline-logo { height: 80px; width: auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
-        .dip-title { font-size: 85px; font-weight: 900; line-height: 1; letter-spacing: -3px; }
-        .dip-subtitle { font-size: 22px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
+body {
+  font-family: 'Inter', sans-serif;
+  background:#000;
+  color:#fff;
+  min-height:100vh;
+}
 
-        .card-registration {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 420px;
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            box-shadow: -15px 15px 40px rgba(0, 0, 0, 0.6);
-            text-align: center;
-        }
+.bg {
+  position:fixed;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-2;
+}
 
-        #countdown-box {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(69, 133, 0, 0.4);
-            padding: 12px;
-            border-radius: 12px;
-            color: #ffeb3b;
-            font-weight: 700;
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
+.overlay {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.75);
+  z-index:-1;
+}
 
-        .event-details { text-align: left; font-size: 14px; line-height: 1.8; margin-bottom: 30px; color: #ccc; }
-        .event-details p { margin: 8px 0; display: flex; align-items: center; gap: 10px; }
+.container {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  min-height:100vh;
+}
 
-        .btn-primary {
-            width: 100%; padding: 18px; background: var(--primary-green);
-            color: #fff; border: none; border-radius: 12px;
-            font-weight: 800; text-transform: uppercase; cursor: pointer;
-        }
-        .btn-primary:hover { background: var(--hover-green); transform: translateY(-2px); }
+.left {
+  flex:1;
+  min-width:300px;
+  padding:20px;
+}
 
-        input {
-            width: 100%; padding: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-            color: #fff; margin-bottom: 12px; font-size: 15px;
-        }
+.right {
+  flex:1;
+  min-width:320px;
+  max-width:420px;
+}
 
-        .hidden { display: none; }
+.card {
+  background:rgba(0,0,0,0.85);
+  padding:30px;
+  border-radius:20px;
+}
 
-        @media (max-width: 992px) {
-            .main-layout { grid-template-columns: 1fr; padding: 20px; text-align: center; margin-top: 50px; }
-            .title-logo-flex { justify-content: center; flex-direction: column; }
-        }
-    </style>
+h1 {
+  font-size:60px;
+}
+
+.logo {
+  width:120px;
+  margin-bottom:10px;
+}
+
+.btn {
+  width:100%;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn:hover { background:var(--hover); }
+
+input {
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:10px;
+  border:none;
+  font-size:16px;
+}
+
+.hidden { display:none; }
+
+#contador {
+  color:#ffeb3b;
+  margin:10px 0;
+}
+
+@media(max-width:768px){
+  h1 { font-size:40px; }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="bg-container">
-        <img src="fundo.png" alt="Fundo DIP">
-    </div>
-    <div class="bg-overlay"></div>
+<img src="fundo.png" class="bg">
+<div class="overlay"></div>
 
-    <main class="main-layout">
-        <div class="left-content">
-            <div class="title-logo-flex">
-                <img src="logo.png" alt="Logo" class="inline-logo">
-                <h1 class="dip-title">DIP 2026</h1>
-            </div>
-            <div class="dip-subtitle">Fé Corajosa</div>
-            <div class="dip-subtitle">No Oriente Médio e Norte da África</div>
-        </div>
+<div class="container">
 
-        <div class="right-content">
-            <div class="card-registration">
-                
-                <div id="inicio">
-                    <div id="countdown-box">⏳ Calculando...</div>
-                    <div class="event-details">
-                        <p>📍 Rua Ana Teles, 826 - Campinho/RJ</p>
-                        <p>📅 30/05 (Sáb) • 08h às 20h</p>
-                        <p>📅 31/05 (Dom) • 08h às 11h30</p>
-                    </div>
-                    <button class="btn-primary" onclick="abrirForm()">Fazer Inscrição</button>
-                </div>
+<div class="left">
+<img src="logo.png" class="logo">
+<h1>DIP 2026</h1>
+<p>Fé Corajosa</p>
 
-                <div id="formulario" class="hidden">
-                    <input id="nome" placeholder="Nome Completo">
-                    <input id="email" placeholder="E-mail" type="email">
-                    <input id="tel" placeholder="WhatsApp">
-                    <button class="btn-primary" onclick="irPix()">Continuar</button>
-                </div>
+<div id="contador">⏳ Carregando...</div>
 
-                <div id="pagamento" class="hidden">
-                    <h3>Pagamento Pix</h3>
-                    <p style="color:#ffeb3b; font-size:20px; margin: 15px 0;">R$ 30,00</p>
-                    <img src="qrcode.png" style="width:150px; background:#fff; padding:5px; border-radius:10px; margin-bottom:15px">
-                    <button id="btn-final" class="btn-primary" onclick="confirmar()">Enviar Inscrição</button>
-                </div>
+<p>📅 30 e 31 de maio</p>
+<p>⏰ 30/05: 08h às 20h</p>
+<p>⏰ 31/05: 08h às 11h30</p>
+<p style="color:#ffeb3b;">🍽️ Inclui almoço dia 30</p>
+</div>
 
-                <div id="final" class="hidden">
-                    <h2 style="color:var(--primary-green)">Inscrição Enviada!</h2>
-                    <p>Verifique seu e-mail.</p>
-                </div>
+<div class="right">
+<div class="card">
 
-            </div>
-        </div>
-    </main>
+<div id="inicio">
+<button class="btn" onclick="abrir()">Fazer inscrição</button>
+</div>
 
-    <script>
-        function abrirForm(){
-            document.getElementById('inicio').classList.add('hidden');
-            document.getElementById('formulario').classList.remove('hidden');
-        }
-        function irPix(){
-            if(!document.getElementById('nome').value) return alert("Informe seu nome.");
-            document.getElementById('formulario').classList.add('hidden');
-            document.getElementById('pagamento').classList.remove('hidden');
-        }
+<div id="form" class="hidden">
+<input id="nome" placeholder="Nome completo">
+<input id="email" placeholder="E-mail">
+<input id="tel" placeholder="Telefone">
+<button class="btn" onclick="irPagamento()">Continuar</button>
+</div>
 
-        async function confirmar(){
-            const btn = document.getElementById('btn-final');
-            const dados = {
-                nome: document.getElementById('nome').value,
-                email: document.getElementById('email').value,
-                tel: document.getElementById('tel').value
-            };
+<div id="pagamento" class="hidden">
+<h3>Pagamento</h3>
+<p style="color:#ffeb3b;">R$ 30,00</p>
 
-            btn.innerText = "Processando...";
-            btn.disabled = true;
+<img src="qrcode.png" style="width:150px; background:#fff; padding:5px; border-radius:10px;">
 
-            try {
-                // Salva no Firebase
-                await db.collection("inscricoes").add({...dados, data: new Date().toISOString()});
+<input id="pix" value="39.165.116/0001-69" readonly>
 
-                // Envia EmailJS
-                await emailjs.send('service_61svzub', 'template_fdxrswb', {
-                    to_name: "Tesouraria ADECAMP",
-                    from_name: dados.nome,
-                    user_email: dados.email,
-                    user_phone: dados.tel
-                });
+<button class="btn" onclick="copiar()">📋 Copiar Pix</button>
 
-                document.getElementById('pagamento').classList.add('hidden');
-                document.getElementById('final').classList.remove('hidden');
-            } catch (e) {
-                alert("Erro técnico. Tente novamente.");
-                console.error(e);
-                btn.innerText = "Enviar Inscrição";
-                btn.disabled = false;
-            }
-        }
+<button id="btnEnviar" class="btn" onclick="enviar()">Enviar inscrição</button>
+</div>
 
-        // Contador
-        const target = new Date("2026-05-30T08:00:00").getTime();
-        setInterval(() => {
-            const diff = target - new Date().getTime();
-            const d = Math.floor(diff / 86400000);
-            const h = Math.floor((diff % 86400000) / 3600000);
-            document.getElementById('countdown-box').innerText = `⏳ Faltam ${d}d ${h}h`;
-        }, 1000);
-    </script>
+<div id="final" class="hidden">
+<h2>🎉 Inscrição enviada!</h2>
+<p>Verifique seu e-mail 🙌</p>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// CONTADOR
+setInterval(()=>{
+let data = new Date("2026-05-30T08:00:00");
+let now = new Date();
+let diff = data - now;
+
+let d = Math.floor(diff / (1000*60*60*24));
+let h = Math.floor((diff/(1000*60*60))%24);
+
+contador.innerHTML = `⏳ ${d} dias e ${h} horas`;
+},1000);
+
+// NAVEGAÇÃO
+function abrir(){
+inicio.classList.add('hidden');
+form.classList.remove('hidden');
+}
+
+function irPagamento(){
+if(!nome.value || !email.value || !tel.value){
+alert("Preencha tudo!");
+return;
+}
+form.classList.add('hidden');
+pagamento.classList.remove('hidden');
+}
+
+// COPIAR PIX
+function copiar(){
+navigator.clipboard.writeText("39.165.116/0001-69");
+alert("Pix copiado!");
+}
+
+// ENVIAR
+async function enviar(){
+
+const btn = document.getElementById("btnEnviar");
+
+btn.innerText="Enviando...";
+btn.disabled=true;
+
+try{
+
+await db.collection("inscritos").add({
+nome:nome.value,
+email:email.value,
+telefone:tel.value,
+status:"pendente",
+data:new Date()
+});
+
+await emailjs.send("service_61svzub","template_fdxrswb",{
+nome:nome.value,
+email:email.value,
+mensagem:"Sua inscrição foi recebida 🙌"
+});
+
+pagamento.classList.add('hidden');
+final.classList.remove('hidden');
+
+}catch(e){
+console.error(e);
+alert("Erro ao enviar");
+btn.innerText="Enviar inscrição";
+btn.disabled=false;
+}
+
+}
+</script>
+
 </body>
 </html>
