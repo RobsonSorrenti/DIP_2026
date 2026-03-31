@@ -29,6 +29,7 @@
             --hover-green: #5bab00;
             --bg-dark: #0a0a0a;
             --text-white: #ffffff;
+            --text-gray: #b0b0b0;
             --card-bg: rgba(18, 18, 18, 0.95);
         }
 
@@ -49,7 +50,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Fundo Imersivo (Ajuste para Preencher 100% da Tela) --- */
+        /* --- Fundo Imersivo (A Arte do DIP) --- */
         .bg-container {
             position: fixed;
             top: 0;
@@ -62,7 +63,7 @@
         .bg-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* --- MÁGICA AQUI: PREENCHE SEM DISTORCER --- */
+            object-fit: cover; /* Preenche a tela mantendo proporção */
             object-position: center; /* Centraliza a imagem */
         }
 
@@ -77,7 +78,7 @@
             z-index: -1;
         }
 
-        /* --- LAYOUT PRINCIPAL (Ajuste conforme Imagem 7) --- */
+        /* --- LAYOUT PRINCIPAL (A Mágica do Posicionamento) --- */
         .main-layout {
             flex: 1;
             display: grid;
@@ -87,7 +88,7 @@
             gap: 40px;
         }
 
-        /* Lado Esquerdo (Texto do DIP e Logo) */
+        /* Lado Esquerdo (Texto do DIP e Logo no Topo) */
         .left-content {
             display: flex;
             flex-direction: column;
@@ -124,7 +125,7 @@
             letter-spacing: 2px;
         }
 
-        /* Lado Direito (Card de Inscrição) */
+        /* Lado Direito (Card de Inscrição conforme Imagem 7) */
         .right-content {
             display: flex;
             justify-content: flex-end; /* Card colado à direita */
@@ -214,7 +215,7 @@
                 margin-bottom: 30px;
             }
 
-            .logo-igreja{
+            .logo-igreja {
                 position: absolute;
                 top: 20px;
                 left: 50%;
@@ -233,7 +234,7 @@
 <body>
 
     <div class="bg-container">
-        <img src="fundo.png">
+        <img src="fundo.jpg" alt="Fundo DIP 2026 Nômade">
     </div>
     <div class="bg-overlay"></div>
 
@@ -245,10 +246,9 @@
             <div class="dip-text-group">
                 <div class="dip-title">DIP 2026</div>
                 <div class="dip-subtitle">Fé Corajosa</div>
-                <div class="dip-subtutle"> No Oriente Médio e Norte da África </div>
             </div>
         </div>
-        
+
         <div class="right-content">
             <div class="card-registration">
                 
@@ -342,7 +342,7 @@
             const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
 
-            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${minutos}m`;
+            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${m}m`;
         }, 1000);
     </script>
 </body>
