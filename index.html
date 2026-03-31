@@ -29,7 +29,6 @@
             --hover-green: #5bab00;
             --bg-dark: #0a0a0a;
             --text-white: #ffffff;
-            --text-gray: #b0b0b0;
             --card-bg: rgba(18, 18, 18, 0.95);
         }
 
@@ -50,7 +49,7 @@
             overflow-x: hidden;
         }
 
-        /* --- Fundo Imersivo (A Arte do DIP) --- */
+        /* --- Fundo Imersivo (Ajuste para Preencher 100% da Tela) --- */
         .bg-container {
             position: fixed;
             top: 0;
@@ -63,7 +62,7 @@
         .bg-container img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Preenche a tela mantendo proporção */
+            object-fit: cover; /* --- MÁGICA AQUI: PREENCHE SEM DISTORCER --- */
             object-position: center; /* Centraliza a imagem */
         }
 
@@ -78,7 +77,7 @@
             z-index: -1;
         }
 
-        /* --- LAYOUT PRINCIPAL (A Mágica do Posicionamento) --- */
+        /* --- LAYOUT PRINCIPAL (Ajuste conforme Imagem 7) --- */
         .main-layout {
             flex: 1;
             display: grid;
@@ -88,7 +87,7 @@
             gap: 40px;
         }
 
-        /* --- LADO ESQUERDO: TEXTO DO DIP E LOGO --- */
+        /* Lado Esquerdo (Texto do DIP e Logo) */
         .left-content {
             display: flex;
             flex-direction: column;
@@ -97,7 +96,7 @@
             padding: 20px 0;
         }
 
-        .logo {
+        .logo-igreja {
             height: 70px;
             width: auto;
             align-self: flex-start;
@@ -125,7 +124,7 @@
             letter-spacing: 2px;
         }
 
-        /* --- LADO DIREITO: CARD DE INSCRIÇÃO --- */
+        /* Lado Direito (Card de Inscrição) */
         .right-content {
             display: flex;
             justify-content: flex-end; /* Card colado à direita */
@@ -144,27 +143,27 @@
             text-align: center;
         }
 
-        /* Elementos do Card (Typography conforme Imagem 1) */
+        /* Typography do Card */
         h2.card-title { font-size: 26px; font-weight: 800; margin-bottom: 2px; }
         .card-subtitle { color: var(--primary-green); font-weight: 700; margin-bottom: 25px; font-size: 16px; text-transform: uppercase; }
         
-        /* Contador Estilizado */
+        /* Contador Estilizado (Cores e Margem conforme Imagem 7) */
         #countdown-box {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(69, 133, 0, 0.4);
             padding: 12px;
             border-radius: 12px;
-            color: #ffeb3b; /* Amarelo para destaque */
+            color: #ffeb3b; /* Amarelo */
             font-weight: 700;
             font-size: 18px;
             margin-bottom: 25px;
         }
 
-        /* Detalhes do Evento */
+        /* Detalhes do Evento conforme Imagem 7 */
         .event-details { text-align: left; font-size: 13px; line-height: 1.8; margin-bottom: 30px; color: #ccc; }
         .event-details p { margin: 6px 0; display: flex; align-items: center; gap: 8px; }
 
-        /* Botão Principal */
+        /* Botão Principal Estilizado */
         .btn-primary {
             width: 100%;
             padding: 18px;
@@ -185,7 +184,7 @@
             box-shadow: 0 15px 25px rgba(69, 133, 0, 0.4);
         }
 
-        /* Inputs do Formulário */
+        /* Inputs e Botão de Voltar do Formulário */
         input {
             width: 100%;
             padding: 15px;
@@ -203,10 +202,10 @@
         /* --- RESPONSIVIDADE (Smartphone) --- */
         @media (max-width: 992px) {
             .main-layout {
-                grid-template-columns: 1fr; /* Uma coluna apenas */
+                grid-template-columns: 1fr;
                 text-align: center;
                 padding: 20px;
-                margin-top: 80px; /* Espaço para a logo fixada no topo */
+                margin-top: 80px;
             }
 
             .left-content {
@@ -215,7 +214,7 @@
                 margin-bottom: 30px;
             }
 
-            .logo {
+            .logo-igreja {
                 position: absolute;
                 top: 20px;
                 left: 50%;
@@ -241,7 +240,7 @@
     <main class="main-layout">
         
         <div class="left-content">
-            <img src="logo.png" alt="Logo Igreja" class="logo">
+            <img src="logo.png" alt="Logo Igreja" class="logo-igreja">
             
             <div class="dip-text-group">
                 <div class="dip-title">DIP 2026</div>
@@ -342,7 +341,7 @@
             const horas = Math.floor((diferenca % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
 
-            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${m}m`;
+            document.getElementById('countdown-box').innerHTML = `⏳ Faltam ${dias}d ${horas}h ${minutos}m`;
         }, 1000);
     </script>
 </body>
