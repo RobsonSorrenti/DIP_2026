@@ -7,126 +7,174 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-(function(){
-  emailjs.init("zxg1A3foVUrwo8MgR");
-})();
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4",
-  authDomain: "dip-2026.firebaseapp.com",
-  projectId: "dip-2026"
-};
-
+(function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
+const firebaseConfig = { apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4", authDomain: "dip-2026.firebaseapp.com", projectId: "dip-2026" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 </script>
 
 <style>
 :root {
-  --primary: #458500;
-  --hover: #5bab00;
+  --primary: #599202; /* Verde mais próximo da imagem */
+  --hover: #73bd03;
+  --bg-card: rgba(18, 18, 18, 0.9);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background:#000;
-  color:#fff;
-  min-height:100vh;
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .bg {
-  position:fixed;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-2;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  /* Espelhamento opcional se a imagem original for o contrário */
 }
 
 .overlay {
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.75);
-  z-index:-1;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.4), rgba(0,0,0,0.7));
+  z-index: -1;
 }
 
 .container {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  min-height:100vh;
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+  padding: 40px;
 }
 
+/* COLUNA ESQUERDA - TEXTO PRINCIPAL */
 .left {
-  flex:1;
-  min-width:300px;
-  padding:20px;
-}
-
-.right {
-  flex:1;
-  min-width:320px;
-  max-width:420px;
-}
-
-.card {
-  background:rgba(0,0,0,0.85);
-  padding:30px;
-  border-radius:20px;
-}
-
-h1 {
-  font-size:60px;
+  flex: 1.2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 50px;
 }
 
 .logo {
-  width:120px;
-  margin-bottom:10px;
+  width: 100px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.title-group {
+  margin-top: auto;
+}
+
+.sub-header {
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 110px;
+  font-weight: 800;
+  line-height: 0.9;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+/* COLUNA DIREITA - CARD INTERATIVO */
+.right {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+}
+
+.card {
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card h2 { font-size: 24px; margin-bottom: 5px; }
+.card .tema { color: var(--primary); font-size: 14px; font-weight: bold; text-transform: uppercase; margin-bottom: 20px; display: block; }
+
+#contador {
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 8px;
+  color: #c5d6af;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.info-row {
+    font-size: 13px;
+    margin: 5px 0;
+    opacity: 0.8;
 }
 
 .btn {
-  width:100%;
-  padding:15px;
-  border:none;
-  border-radius:10px;
-  background:var(--primary);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 15px;
 }
 
-.btn:hover { background:var(--hover); }
+.btn:hover { background: var(--hover); transform: translateY(-2px); }
 
 input {
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border-radius:10px;
-  border:none;
-  font-size:16px;
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: #fff;
 }
 
-.hidden { display:none; }
+.hidden { display: none; }
 
-#contador {
-  color:#ffeb3b;
-  margin:10px 0;
-}
-
-@media(max-width:768px){
-  h1 { font-size:40px; }
+/* MOBILE AJUSTES */
+@media(max-width: 900px){
+  .container { flex-direction: column; text-align: center; padding: 20px; }
+  .left { justify-content: center; align-items: center; padding-bottom: 30px; }
+  h1 { font-size: 70px; }
+  .subtitle { font-size: 20px; }
 }
 </style>
 </head>
@@ -138,127 +186,119 @@ input {
 
 <div class="container">
 
-<div class="left">
-<img src="logo.png" class="logo">
-<h1>DIP 2026</h1>
-<p>Fé Corajosa</p>
+  <div class="left">
+    <img src="logo.png" class="logo" alt="Logo">
+    <div class="sub-header">No Oriente Médio e Norte da África</div>
+    <div class="title-group">
+        <h1>DIP</h1>
+        <div class="subtitle">Fé Corajosa</div>
+    </div>
+  </div>
 
-<div id="contador">⏳ Carregando...</div>
+  <div class="right">
+    <div class="card">
+      <h2>DIP 2026</h2>
+      <span class="tema">Fé Corajosa</span>
 
-<p>📅 30 e 31 de maio</p>
-<p>⏰ 30/05: 08h às 20h</p>
-<p>⏰ 31/05: 08h às 11h30</p>
-<p style="color:#ffeb3b;">🍽️ Inclui almoço dia 30</p>
-</div>
+      <div id="contador">⏳ Carregando tempo...</div>
 
-<div class="right">
-<div class="card">
+      <div class="info-row">📍 Rua Ana Teles, 826</div>
+      <div class="info-row">📅 30/05 e 31/05</div>
+      <div class="info-row" style="color: #ffeb3b; margin-top: 10px;">🍽️ Almoço incluso no dia 30</div>
 
-<div id="inicio">
-<button class="btn" onclick="abrir()">Fazer inscrição</button>
-</div>
+      <div id="inicio">
+        <button class="btn" onclick="abrir()">Fazer inscrição</button>
+      </div>
 
-<div id="form" class="hidden">
-<input id="nome" placeholder="Nome completo">
-<input id="email" placeholder="E-mail">
-<input id="tel" placeholder="Telefone">
-<button class="btn" onclick="irPagamento()">Continuar</button>
-</div>
+      <div id="form" class="hidden">
+        <input id="nome" placeholder="Nome completo">
+        <input id="email" placeholder="E-mail">
+        <input id="tel" placeholder="Telefone">
+        <button class="btn" onclick="irPagamento()">Continuar</button>
+      </div>
 
-<div id="pagamento" class="hidden">
-<h3>Pagamento</h3>
-<p style="color:#ffeb3b;">R$ 30,00</p>
+      <div id="pagamento" class="hidden">
+        <h3>Pagamento</h3>
+        <p style="color:#ffeb3b; font-size: 24px; margin: 15px 0;">R$ 30,00</p>
+        <img src="qrcode.png" style="width:160px; background:#fff; padding:10px; border-radius:10px; margin-bottom: 15px;">
+        <input id="pix" value="39.165.116/0001-69" readonly style="text-align: center;">
+        <button class="btn" style="background: #333;" onclick="copiar()">📋 Copiar Pix</button>
+        <button id="btnEnviar" class="btn" onclick="enviar()">Enviar comprovante</button>
+      </div>
 
-<img src="qrcode.png" style="width:150px; background:#fff; padding:5px; border-radius:10px;">
-
-<input id="pix" value="39.165.116/0001-69" readonly>
-
-<button class="btn" onclick="copiar()">📋 Copiar Pix</button>
-
-<button id="btnEnviar" class="btn" onclick="enviar()">Enviar inscrição</button>
-</div>
-
-<div id="final" class="hidden">
-<h2>🎉 Inscrição enviada!</h2>
-<p>Verifique seu e-mail 🙌</p>
-</div>
-
-</div>
-</div>
+      <div id="final" class="hidden">
+        <h2 style="color: var(--primary);">🎉 Sucesso!</h2>
+        <p>Inscrição enviada. Verifique seu e-mail.</p>
+      </div>
+    </div>
+  </div>
 
 </div>
 
 <script>
-
-// CONTADOR
+// Mantive sua lógica original de JS, apenas ajustando o seletor do contador
 setInterval(()=>{
-let data = new Date("2026-05-30T08:00:00");
-let now = new Date();
-let diff = data - now;
+    let data = new Date("2026-05-30T08:00:00");
+    let now = new Date();
+    let diff = data - now;
+    if(diff <= 0) {
+        document.getElementById("contador").innerHTML = "É HOJE!";
+        return;
+    }
+    let d = Math.floor(diff / (1000*60*60*24));
+    let h = Math.floor((diff/(1000*60*60))%24);
+    document.getElementById("contador").innerHTML = `⏳ Faltam ${d} dias e ${h} horas`;
+}, 1000);
 
-let d = Math.floor(diff / (1000*60*60*24));
-let h = Math.floor((diff/(1000*60*60))%24);
-
-contador.innerHTML = `⏳ ${d} dias e ${h} horas`;
-},1000);
-
-// NAVEGAÇÃO
 function abrir(){
-inicio.classList.add('hidden');
-form.classList.remove('hidden');
+    document.getElementById('inicio').classList.add('hidden');
+    document.getElementById('form').classList.remove('hidden');
 }
 
 function irPagamento(){
-if(!nome.value || !email.value || !tel.value){
-alert("Preencha tudo!");
-return;
-}
-form.classList.add('hidden');
-pagamento.classList.remove('hidden');
+    if(!nome.value || !email.value || !tel.value){
+        alert("Preencha todos os campos!");
+        return;
+    }
+    document.getElementById('form').classList.add('hidden');
+    document.getElementById('pagamento').classList.remove('hidden');
 }
 
-// COPIAR PIX
 function copiar(){
-navigator.clipboard.writeText("39.165.116/0001-69");
-alert("Pix copiado!");
+    navigator.clipboard.writeText("39.165.116/0001-69");
+    alert("Chave Pix copiada!");
 }
 
-// ENVIAR
 async function enviar(){
+    const btn = document.getElementById("btnEnviar");
+    btn.innerText="Enviando...";
+    btn.disabled=true;
 
-const btn = document.getElementById("btnEnviar");
+    try {
+        await db.collection("inscritos").add({
+            nome: nome.value,
+            email: email.value,
+            telefone: tel.value,
+            status: "pendente",
+            data: new Date()
+        });
 
-btn.innerText="Enviando...";
-btn.disabled=true;
+        await emailjs.send("service_61svzub","template_fdxrswb",{
+            nome: nome.value,
+            email: email.value,
+            mensagem: "Sua inscrição foi recebida 🙌"
+        });
 
-try{
+        document.getElementById('pagamento').classList.add('hidden');
+        document.getElementById('final').classList.remove('hidden');
 
-await db.collection("inscritos").add({
-nome:nome.value,
-email:email.value,
-telefone:tel.value,
-status:"pendente",
-data:new Date()
-});
-
-await emailjs.send("service_61svzub","template_fdxrswb",{
-nome:nome.value,
-email:email.value,
-mensagem:"Sua inscrição foi recebida 🙌"
-});
-
-pagamento.classList.add('hidden');
-final.classList.remove('hidden');
-
-}catch(e){
-console.error(e);
-alert("Erro ao enviar");
-btn.innerText="Enviar inscrição";
-btn.disabled=false;
-}
-
+    } catch(e) {
+        console.error(e);
+        alert("Erro ao enviar. Tente novamente.");
+        btn.innerText="Enviar comprovante";
+        btn.disabled=false;
+    }
 }
 </script>
-
 </body>
 </html>
