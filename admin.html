@@ -12,7 +12,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-<!-- Gráfico -->
+<!-- Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -42,8 +42,6 @@ body {
   margin:auto;
 }
 
-h2 { text-align:center; }
-
 .card {
   padding:15px;
   margin:10px 0;
@@ -55,7 +53,7 @@ h2 { text-align:center; }
 .pago { border-left:5px solid #00c853; }
 
 button {
-  margin-top:10px;
+  margin-top:8px;
   padding:10px;
   border:none;
   border-radius:8px;
@@ -79,9 +77,30 @@ canvas {
 
 <body>
 
-<div class="container">
+<!-- 🔐 LOGIN -->
+<div id="login" style="display:flex;justify-content:center;align-items:center;height:100vh;">
+  <div style="background:#1e1e1e;padding:30px;border-radius:15px;width:300px;text-align:center;">
+    
+    <h2>🔐 Acesso Restrito</h2>
+
+    <input id="user" placeholder="Usuário">
+    <input id="pass" type="password" placeholder="Senha">
+
+    <button onclick="logar()">Entrar</button>
+
+    <p id="erro" style="color:red;"></p>
+
+  </div>
+</div>
+
+<!-- 🎯 PAINEL -->
+<div class="container" id="painel" style="display:none;">
 
 <h2>📊 Painel DIP 2026</h2>
+
+<button onclick="sair()" style="background:#555; margin-bottom:10px;">
+  🚪 Sair
+</button>
 
 <h3 id="contador">👥 Total: 0</h3>
 
@@ -102,6 +121,36 @@ canvas {
 </div>
 
 <script>
+
+// 🔐 LOGIN
+function logar(){
+
+  const usuarios = [
+    {user:"charles.meusser", pass:"Ana00826#"},
+    {user:"robson.sorrenti", pass:"Rocksfor00826"}
+  ];
+
+  let u = document.getElementById("user").value;
+  let p = document.getElementById("pass").value;
+
+  let valido = usuarios.find(x => x.user === u && x.pass === p);
+
+  if(valido){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("painel").style.display = "block";
+  } else {
+    document.getElementById("erro").innerText = "Usuário ou senha inválidos!";
+  }
+}
+
+// 🚪 SAIR
+function sair(){
+  document.getElementById("painel").style.display = "none";
+  document.getElementById("login").style.display = "flex";
+
+  document.getElementById("user").value = "";
+  document.getElementById("pass").value = "";
+}
 
 let dados = [];
 let chart;
@@ -129,7 +178,6 @@ db.collection("inscritos").orderBy("data","desc").onSnapshot(snapshot=>{
 
 // 📊 GRÁFICO
 function atualizarGrafico(pendente, pago){
-
   if(chart) chart.destroy();
 
   chart = new Chart(grafico, {
@@ -143,7 +191,7 @@ function atualizarGrafico(pendente, pago){
   });
 }
 
-// 🧾 RENDER
+// 🧾 LISTA
 function renderizar(listaDados){
   let html = "";
 
@@ -160,23 +208,22 @@ function renderizar(listaDados){
       📞 ${d.telefone}<br>
       Status: <b>${d.status}</b><br>
 
-      ${d.usado ? "<p style='color:orange;'>⚠️ Já utilizado</p>" : ""}
-
       ${qrUrl ? `<img src="${qrUrl}"><br>` : ""}
 
-      <div style="margin-top:10px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
 
-  <button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
-    ✅ Confirmar pagamento
-  </button>
+        <button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
+          ✅ Confirmar pagamento
+        </button>
 
-  <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
-    🗑️ Excluir
-    </button>
+        <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
+          🗑️ Excluir
+        </button>
 
-  </div>
-</div>
-`;
+      </div>
+    </div>
+    `;
+  });
 
   lista.innerHTML = html || "Nenhum resultado.";
 }
@@ -196,25 +243,17 @@ function filtrar(){
   renderizar(filtrados);
 }
 
-// ✅ CONFIRMAR PAGAMENTO
+// ✅ CONFIRMAR
 function confirmar(id, nome, email){
 
   db.collection("inscritos").doc(id).update({
     status: "pago"
   });
 
-  let mensagem = `
-Glória a Deus ${nome}!
-
-Seu pagamento foi confirmado ✅
-
-Sua inscrição no D.I.P 2026 está garantida 🎉
-`;
-
   emailjs.send("service_61svzub","template_m4c28dc",{
-    nome: nome,
-    email: email,
-    mensagem: mensagem
+    nome:nome,
+    email:email,
+    mensagem:"Pagamento confirmado!"
   });
 
   alert("Pagamento confirmado!");
@@ -223,22 +262,14 @@ Sua inscrição no D.I.P 2026 está garantida 🎉
 // 🗑️ EXCLUIR
 function excluir(id, nome){
 
-  let confirmarExclusao = confirm(`Deseja excluir ${nome}?`);
+  if(!confirm(`Excluir ${nome}?`)) return;
 
-  if(!confirmarExclusao) return;
+  db.collection("inscritos").doc(id).delete();
 
-  db.collection("inscritos").doc(id).delete()
-  .then(()=>{
-    alert("🗑️ Excluído com sucesso!");
-  })
-  .catch((error)=>{
-    console.error(error);
-    alert("Erro ao excluir.");
-  });
-
+  alert("Excluído com sucesso!");
 }
 
-// 📊 EXPORTAR CSV
+// 📊 EXPORTAR
 function exportar(){
   let csv = "Nome,Email,Telefone,Status\n";
 
@@ -246,8 +277,8 @@ function exportar(){
     csv += `${d.nome},${d.email},${d.telefone},${d.status}\n`;
   });
 
-  let blob = new Blob([csv], { type: 'text/csv' });
-  let link = document.createElement('a');
+  let blob = new Blob([csv]);
+  let link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = "inscritos.csv";
   link.click();
