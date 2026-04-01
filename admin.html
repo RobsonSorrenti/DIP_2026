@@ -164,21 +164,19 @@ function renderizar(listaDados){
 
       ${qrUrl ? `<img src="${qrUrl}"><br>` : ""}
 
-      ${
-        d.status === "pendente"
-        ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
-            ✅ Confirmar pagamento
-          </button>`
-        : `
-            ✔️ Pago
-            <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
-              🗑️ Excluir
-            </button>
-          `
-      }
-    </div>
-    `;
-  });
+      <div style="margin-top:10px;">
+
+  <button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
+    ✅ Confirmar pagamento
+  </button>
+
+  <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
+    🗑️ Excluir
+    </button>
+
+  </div>
+</div>
+`;
 
   lista.innerHTML = html || "Nenhum resultado.";
 }
