@@ -65,6 +65,10 @@ button {
   width:100%;
 }
 
+.btn-delete {
+  background:#d32f2f;
+}
+
 canvas {
   background:#fff;
   border-radius:10px;
@@ -165,7 +169,12 @@ function renderizar(listaDados){
         ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
             ✅ Confirmar pagamento
           </button>`
-        : "✔️ Pago"
+        : `
+            ✔️ Pago
+            <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
+              🗑️ Excluir
+            </button>
+          `
       }
     </div>
     `;
@@ -211,6 +220,24 @@ Sua inscrição no D.I.P 2026 está garantida 🎉
   });
 
   alert("Pagamento confirmado!");
+}
+
+// 🗑️ EXCLUIR
+function excluir(id, nome){
+
+  let confirmarExclusao = confirm(`Deseja excluir ${nome}?`);
+
+  if(!confirmarExclusao) return;
+
+  db.collection("inscritos").doc(id).delete()
+  .then(()=>{
+    alert("🗑️ Excluído com sucesso!");
+  })
+  .catch((error)=>{
+    console.error(error);
+    alert("Erro ao excluir.");
+  });
+
 }
 
 // 📊 EXPORTAR CSV
