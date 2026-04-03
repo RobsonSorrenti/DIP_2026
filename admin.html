@@ -72,6 +72,14 @@ canvas {
   border-radius:10px;
   margin:10px 0;
 }
+
+input, select {
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:8px;
+  border:none;
+}
 </style>
 </head>
 
@@ -84,7 +92,15 @@ canvas {
     <h2>🔐 Acesso Restrito</h2>
 
     <input id="user" placeholder="Usuário">
-    <input id="pass" type="password" placeholder="Senha">
+
+    <!-- SENHA COM OLHINHO -->
+    <div style="position:relative;">
+      <input id="pass" type="password" placeholder="Senha" style="padding-right:40px;">
+      <span onclick="toggleSenha()" 
+            style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+        👁️
+      </span>
+    </div>
 
     <button onclick="logar()">Entrar</button>
 
@@ -98,7 +114,7 @@ canvas {
 
 <h2>📊 Painel DIP 2026</h2>
 
-<button onclick="sair()" style="background:#555; margin-bottom:10px;">
+<button onclick="sair()" style="background:#555;">
   🚪 Sair
 </button>
 
@@ -122,9 +138,14 @@ canvas {
 
 <script>
 
+// 👁️ MOSTRAR/OCULTAR SENHA
+function toggleSenha(){
+  let input = document.getElementById("pass");
+  input.type = input.type === "password" ? "text" : "password";
+}
+
 // 🔐 LOGIN
 function logar(){
-
 const usuarios = [
   {user:"charles.meuser", pass:"Ana00826#"},
   {user:"robson.sorrenti", pass:"Rocksfor00826"},
@@ -132,26 +153,25 @@ const usuarios = [
   {user:"mila.santos", pass:"Dip_2026"}
 ];
 
-  let u = document.getElementById("user").value;
-  let p = document.getElementById("pass").value;
+  let u = user.value;
+  let p = pass.value;
 
   let valido = usuarios.find(x => x.user === u && x.pass === p);
 
   if(valido){
-    document.getElementById("login").style.display = "none";
-    document.getElementById("painel").style.display = "block";
+    login.style.display = "none";
+    painel.style.display = "block";
   } else {
-    document.getElementById("erro").innerText = "Usuário ou senha inválidos!";
+    erro.innerText = "Usuário ou senha inválidos!";
   }
 }
 
 // 🚪 SAIR
 function sair(){
-  document.getElementById("painel").style.display = "none";
-  document.getElementById("login").style.display = "flex";
-
-  document.getElementById("user").value = "";
-  document.getElementById("pass").value = "";
+  painel.style.display = "none";
+  login.style.display = "flex";
+  user.value = "";
+  pass.value = "";
 }
 
 let dados = [];
@@ -173,7 +193,6 @@ db.collection("inscritos").orderBy("data","desc").onSnapshot(snapshot=>{
   });
 
   contador.innerHTML = `👥 Total: ${dados.length}`;
-
   atualizarGrafico(pendente, pago);
   renderizar(dados);
 });
@@ -186,16 +205,16 @@ function atualizarGrafico(pendente, pago){
     type: 'doughnut',
     data: {
       labels: ['Pendentes','Pagos'],
-      datasets: [{
-        data: [pendente, pago]
-      }]
+      datasets: [{ data: [pendente, pago] }]
     }
   });
 }
 
 // 🧾 LISTA
- listaDados.forEach(d=>{
+function renderizar(listaDados){
+  let html = "";
 
+  listaDados.forEach(d=>{
     let qrUrl = d.codigo
       ? `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(d.codigo)}`
       : "";
@@ -209,29 +228,24 @@ function atualizarGrafico(pendente, pago){
 
       ${qrUrl ? `<img src="${qrUrl}"><br>` : ""}
 
-      <div style="display:flex;flex-direction:column;gap:6px;">
+      ${
+        d.status === "pendente"
+        ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
+            ✅ Confirmar pagamento
+          </button>`
+        : `<div style="padding:10px;background:#00c853;border-radius:8px;text-align:center;">
+            ✔️ Pago
+          </div>`
+      }
 
-        ${
-          d.status === "pendente"
-          ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
-              ✅ Confirmar pagamento
-            </button>`
-          : `<div style="padding:10px; background:#00c853; border-radius:8px; text-align:center;">
-              ✔️ Pago
-            </div>`
-        }
-
-        <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
-          🗑️ Excluir
-        </button>
-
-      </div>
+      <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
+        🗑️ Excluir
+      </button>
     </div>
     `;
   });
 
   lista.innerHTML = html || "Nenhum resultado.";
-}
 }
 
 // 🔎 FILTRO
@@ -251,10 +265,7 @@ function filtrar(){
 
 // ✅ CONFIRMAR
 function confirmar(id, nome, email){
-
-  db.collection("inscritos").doc(id).update({
-    status: "pago"
-  });
+  db.collection("inscritos").doc(id).update({ status: "pago" });
 
   emailjs.send("service_61svzub","template_m4c28dc",{
     nome:nome,
@@ -267,12 +278,10 @@ function confirmar(id, nome, email){
 
 // 🗑️ EXCLUIR
 function excluir(id, nome){
-
   if(!confirm(`Excluir ${nome}?`)) return;
 
   db.collection("inscritos").doc(id).delete();
-
-  alert("Excluído com sucesso!");
+  alert("Excluído!");
 }
 
 // 📊 EXPORTAR
