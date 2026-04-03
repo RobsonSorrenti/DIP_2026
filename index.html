@@ -1,344 +1,240 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIP 2026 | Fé Corajosa</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIP 2026 | Fé Corajosa</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <script>
-        (function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDa10xZY1W41ABHJjXRjMyalfh6R6rl1P4", 
-            authDomain: "dip-2026.firebaseapp.com", 
-            projectId: "dip-2026" 
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-    </script>
+<script>
+(function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
 
-    <style>
-        :root {
-            --primary: #599202;
-            --hover: #73bd03;
-            --bg-card: rgba(18, 18, 18, 0.95);
-        }
+const firebaseConfig = { 
+  apiKey: "AIzaSy...", 
+  authDomain: "dip-2026.firebaseapp.com", 
+  projectId: "dip-2026" 
+};
 
-        * { margin:0; padding:0; box-sizing:border-box; }
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #000;
-            color: #fff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+<style>
+:root {
+  --primary: #599202;
+  --hover: #73bd03;
+  --bg-card: rgba(18, 18, 18, 0.95);
+}
 
-        /* FUNDO COM AJUSTE DE POSIÇÃO */
-        .bg {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center top; 
-            z-index: -2;
-        }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-        .overlay {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
-            z-index: -1;
-        }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-        .container {
-            display: flex;
-            min-height: 100vh;
-            width: 100%;
-            max-width: 1300px;
-            margin: 0 auto;
-            align-items: center;
-            padding: 40px;
-        }
+/* FUNDO */
+.bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  z-index: -2;
+}
 
-        /* COLUNA ESQUERDA - DESKTOP */
-        .left {
-            flex: 1.2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding-right: 20px;
-        }
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+  z-index: -1;
+}
 
-        .logo {
-            width: 110px;
-            margin-bottom: 30px;
-        }
+.container {
+  display: flex;
+  min-height: 100vh;
+  max-width: 1300px;
+  margin: auto;
+  align-items: center;
+  padding: 40px;
+}
 
-        .sub-header {
-            font-size: 14px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0.7;
-            margin-bottom: 15px;
-        }
+.left {
+  flex: 1.2;
+}
 
-        h1 {
-            font-size: 100px;
-            font-weight: 800;
-            line-height: 0.9;
-            margin-bottom: 10px;
-        }
+.logo {
+  width: 110px;
+  margin-bottom: 30px;
+}
 
-        .subtitle {
-            font-size: 32px;
-            font-weight: 400;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
+h1 {
+  font-size: 100px;
+  font-weight: 800;
+  line-height: 0.9;
+}
 
-        /* COLUNA DIREITA - CARD */
-        .right {
-            flex: 0.8;
-            display: flex;
-            justify-content: center;
-        }
+.subtitle {
+  font-size: 32px;
+  letter-spacing: 4px;
+  margin-bottom: 20px;
+}
 
-        .card {
-            background: var(--bg-card);
-            padding: 40px;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
+.sub-header {
+  font-size: 14px;
+  letter-spacing: 3px;
+  opacity: 0.7;
+}
 
-        #contador {
-            background: rgba(255,255,255,0.07);
-            padding: 12px;
-            border-radius: 8px;
-            color: #d1e2b5;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 25px;
-        }
+.right {
+  flex: 0.8;
+  display: flex;
+  justify-content: center;
+}
 
-        .info-row {
-            font-size: 14px;
-            margin: 8px 0;
-            opacity: 0.9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
+.card {
+  background: var(--bg-card);
+  padding: 40px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
 
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 8px;
-            background: var(--primary);
-            color: #fff;
-            font-weight: 700;
-            font-size: 15px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-        }
+/* 🔥 CONTADOR TOP */
+#contador {
+  background: rgba(255,255,255,0.07);
+  padding: 20px;
+  border-radius: 12px;
+  color: #d1e2b5;
 
-        .btn:hover { background: var(--hover); transform: translateY(-2px); }
+  font-size: 42px;
+  font-weight: 800;
+  text-align: center;
 
-        input {
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 16px;
-        }
+  margin-bottom: 25px;
+  line-height: 1.2;
 
-        .hidden { display: none; }
+  letter-spacing: 1px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
 
-        /* --- AJUSTES PARA SMARTPHONE --- */
-        @media (max-width: 900px) {
-            .bg {
-                object-position: 30% center; /* Ajusta o personagem para não sumir no corte vertical */
-            }
+#contador b {
+  color: #ffffff;
+  font-size: 48px;
+}
 
-            .container {
-                flex-direction: column;
-                justify-content: flex-start;
-                padding: 20px;
-                padding-top: 60px;
-            }
+.info-row {
+  font-size: 14px;
+  margin: 8px 0;
+}
 
-            .left {
-                flex: none;
-                width: 100%;
-                text-align: center;
-                padding-right: 0;
-                margin-bottom: 40px;
-                align-items: center;
-            }
+.btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+}
 
-            h1 { font-size: 65px; }
-            .subtitle { font-size: 22px; letter-spacing: 2px; }
-            .sub-header { font-size: 11px; margin-bottom: 10px; }
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+}
 
-            .right {
-                width: 100%;
-                margin-bottom: 40px; /* Evita que o card cole no rodapé */
-            }
+.hidden { display:none; }
 
-            .card {
-                padding: 30px 20px;
-            }
-        }
-    </style>
+/* 📱 MOBILE */
+@media (max-width:900px){
+
+  .container {
+    flex-direction: column;
+    padding:20px;
+  }
+
+  h1 { font-size: 65px; }
+  .subtitle { font-size: 22px; }
+
+  #contador {
+    font-size: 26px;
+    padding: 15px;
+  }
+
+  #contador b {
+    font-size: 30px;
+  }
+}
+</style>
 </head>
+
 <body>
 
-    <img src="fundo.png" class="bg" alt="Fundo">
-    <div class="overlay"></div>
+<img src="fundo.png" class="bg">
+<div class="overlay"></div>
 
-    <div class="container">
-        <div class="left">
-            <img src="logo.png" class="logo" alt="Logo AD Campinho">
-            <h1>DIP 2026</h1>
-            <div class="subtitle">Fé Corajosa</div>
-            <div class="sub-header">No Oriente Médio e Norte da África</div>
-        </div>
+<div class="container">
 
-        <div class="right">
-            <div class="card">
-                <div id="contador">⏳ Calculando tempo...</div>
+<div class="left">
+<img src="logo.png" class="logo">
+<h1>DIP 2026</h1>
+<div class="subtitle">Fé Corajosa</div>
+<div class="sub-header">No Oriente Médio e Norte da África</div>
+</div>
 
-                <div class="info-row">📍 Rua Ana Teles, 826</div>
-                <div class="info-row">📅 30/05 e 31/05</div>
-                <div class="info-row" style="color: #ffeb3b; font-weight: 600;">🍽️ Almoço incluso no dia 30</div>
+<div class="right">
+<div class="card">
 
-                <div id="inicio">
-                    <button class="btn" onclick="abrir()">Fazer inscrição</button>
-                </div>
+<div id="contador">⏳ Calculando...</div>
 
-                <div id="form" class="hidden">
-                    <input id="nome" placeholder="Nome completo">
-                    <input id="email" type="email" placeholder="E-mail">
-                    <input id="tel" type="tel" placeholder="Telefone">
-                    <button class="btn" onclick="irPagamento()">Continuar para Pagamento</button>
-                </div>
+<div class="info-row">📍 Rua Ana Teles, 826</div>
+<div class="info-row">📅 30/05 e 31/05</div>
 
-                <div id="pagamento" class="hidden">
-                    <h3>Confirmar Inscrição</h3>
-                    <p style="color:#ffeb3b; font-size: 24px; margin: 15px 0; font-weight: 700;">R$ 30,00</p>
-                    <img src="qrcode.png" style="width:160px; background:#fff; padding:10px; border-radius:10px; margin-bottom: 15px;">
-                    <p style="font-size: 12px; margin-bottom: 5px; opacity: 0.7;">Chave PIX (CNPJ):</p>
-                    <input id="pix" value="39.116.165/0001-69" readonly style="text-align: center; cursor: pointer;" onclick="copiar()">
-                    <button class="btn" style="background: #333;" onclick="copiar()">📋 Copiar Chave Pix</button>
-                    <button id="btnEnviar" class="btn" onclick="enviar()">Finalizar Inscrição</button>
-                </div>
+<button class="btn" onclick="abrir()">Fazer inscrição</button>
 
-                <div id="final" class="hidden">
-                    <h2 style="color: var(--primary); margin-bottom: 10px;">🎉 Quase pronto!</h2>
-                    <p>Sua inscrição foi pré-registrada. Verifique seu e-mail para mais detalhes.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
+</div>
 
-    <script>
-        // Contador Regressivo
-        function atualizarContador() {
-            const dataEvento = new Date("2026-05-30T08:00:00").getTime();
-            const agora = new Date().getTime();
-            const diff = dataEvento - agora;
+</div>
 
-            if (diff <= 0) {
-                document.getElementById("contador").innerHTML = "O evento começou!";
-                return;
-            }
+<script>
+function atualizarContador(){
+  const dataEvento = new Date("2026-05-30T08:00:00").getTime();
+  const agora = new Date().getTime();
+  const diff = dataEvento - agora;
 
-            const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            document.getElementById("contador").innerHTML = `⏳ Faltam ${dias} dias e ${horas} horas`;
-        }
-        setInterval(atualizarContador, 1000);
-        atualizarContador();
+  if(diff <= 0){
+    contador.innerHTML = "Evento iniciado!";
+    return;
+  }
 
-        // Fluxo de Telas
-        function abrir(){
-            document.getElementById('inicio').classList.add('hidden');
-            document.getElementById('form').classList.remove('hidden');
-        }
+  const dias = Math.floor(diff / (1000*60*60*24));
+  const horas = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
 
-        function irPagamento(){
-            const n = document.getElementById('nome').value;
-            const e = document.getElementById('email').value;
-            const t = document.getElementById('tel').value;
-            if(!n || !e || !t){
-                alert("Por favor, preencha todos os campos.");
-                return;
-            }
-            document.getElementById('form').classList.add('hidden');
-            document.getElementById('pagamento').classList.remove('hidden');
-        }
+  contador.innerHTML = `⏳ <b>${dias}</b> dias e <b>${horas}</b> horas`;
+}
 
-        function copiar(){
-            const pixValue = document.getElementById('pix').value;
-            navigator.clipboard.writeText(pixValue);
-            alert("Chave Pix copiada com sucesso!");
-        }
+setInterval(atualizarContador,1000);
+atualizarContador();
 
-        // Envio para Firebase e EmailJS
-        async function enviar(){
-            const btn = document.getElementById("btnEnviar");
-            const nome = document.getElementById('nome').value;
-            const email = document.getElementById('email').value;
-            const tel = document.getElementById('tel').value;
+function abrir(){
+  alert("Fluxo continua aqui 😄");
+}
+</script>
 
-            btn.innerText = "Processando...";
-            btn.disabled = true;
-
-            try {
-                // 1. Salva no Firestore
-                await db.collection("inscritos").add({
-                    nome: nome,
-                    email: email,
-                    telefone: tel,
-                    status: "pendente",
-                    data: new Date()
-                });
-
-                // 2. Envia E-mail de confirmação
-                await emailjs.send("service_61svzub","template_fdxrswb",{
-                    nome: nome,
-                    email: email,
-                    mensagem: "Inscrição recebida! Aguardamos a confirmação do pagamento."
-                });
-
-                document.getElementById('pagamento').classList.add('hidden');
-                document.getElementById('final').classList.remove('hidden');
-
-            } catch (error) {
-                console.error("Erro no envio:", error);
-                alert("Ocorreu um erro ao processar. Tente novamente ou fale conosco.");
-                btn.innerText = "Finalizar Inscrição";
-                btn.disabled = false;
-            }
-        }
-    </script>
 </body>
 </html>
