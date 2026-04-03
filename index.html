@@ -1,257 +1,254 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DIP 2026 | Fé Corajosa</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIP 2026 | Fé Corajosa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #599202;
+            --hover: #73bd03;
+        }
 
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+        * { margin:0; padding:0; box-sizing:border-box; }
 
-<script>
-(function(){ emailjs.init("zxg1A3foVUrwo8MgR"); })();
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            height: 100vh;
+            overflow: hidden; /* Mantém a estrutura limpa como no croqui */
+        }
 
-const firebaseConfig = { 
-  apiKey: "AIzaSy...", 
-  authDomain: "dip-2026.firebaseapp.com", 
-  projectId: "dip-2026" 
-};
+        .main-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-</script>
+        /* LADO ESQUERDO: BACKGROUND ENQUADRADA */
+        .left-bg {
+            flex: 1.2;
+            position: relative;
+            overflow: hidden;
+        }
 
-<style>
-:root {
-  --primary: #599202;
-  --hover: #73bd03;
-}
+        .left-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ajusta para focar na pessoa/fundo conforme o desenho */
+            object-position: center; 
+        }
 
-* { margin:0; padding:0; box-sizing:border-box; }
+        /* LADO DIREITO: CONTEÚDO (LOGO, DIP 2026, FALTAM X DIAS) */
+        .right-content {
+            flex: 0.8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            background: #000;
+        }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #000;
-  color: #fff;
-}
+        .logo { 
+            width: 140px; 
+            margin-bottom: 10px; 
+        }
 
-/* FUNDO AJUSTADO */
-.bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 25% center;
-  z-index: -2;
-}
+        h1 { 
+            font-size: 80px; 
+            font-weight: 800; 
+            line-height: 1;
+            margin-bottom: 5px;
+        }
 
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
-  z-index: -1;
-}
+        .subtitle { 
+            font-size: 24px; 
+            margin-bottom: 40px; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
 
-.container {
-  display: flex;
-  min-height: 100vh;
-  max-width: 1300px;
-  margin: auto;
-  align-items: center;
-  padding: 40px;
-}
+        /* CONTADOR ESTILIZADO CONFORME O "FALTAM X DIAS" */
+        #contador {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+        }
 
-.left { flex:1.2; }
+        #contador b {
+            font-size: 45px;
+            color: var(--primary);
+        }
 
-.logo { width:110px; margin-bottom:20px; }
+        /* BOTÃO DE INSCRIÇÃO */
+        .btn {
+            width: 100%;
+            max-width: 300px;
+            padding: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 4px; /* Mais quadrado como no desenho */
+            background: transparent;
+            color: #fff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
 
-h1 { font-size:100px; font-weight:800; }
+        .btn:hover {
+            background: var(--primary);
+        }
 
-.subtitle { font-size:30px; margin-bottom:20px; }
+        /* FORMULÁRIO SOBREPOSTO (MODAL) */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
 
-.sub-header { font-size:14px; opacity:0.7; }
+        .modal-content {
+            background: #111;
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
 
-.right { flex:0.8; display:flex; justify-content:center; }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: #222;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+        }
 
-.card {
-  background: rgba(18,18,18,0.95);
-  padding:40px;
-  border-radius:15px;
-  max-width:400px;
-  width:100%;
-  text-align:center;
-}
+        .hidden { display: none; }
 
-/* CONTADOR TOP */
-#contador {
-  background: rgba(255,255,255,0.07);
-  padding:20px;
-  border-radius:12px;
-  font-size:42px;
-  font-weight:800;
-  margin-bottom:25px;
-}
-
-#contador b {
-  font-size:48px;
-  color:#fff;
-}
-
-input {
-  width:100%;
-  padding:14px;
-  margin:10px 0;
-  border-radius:8px;
-  border:none;
-}
-
-.btn {
-  width:100%;
-  padding:15px;
-  margin-top:15px;
-  border:none;
-  border-radius:8px;
-  background:var(--primary);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.hidden { display:none; }
-
-/* MOBILE */
-@media(max-width:900px){
-
-  .container { flex-direction:column; padding:20px; }
-
-  h1 { font-size:60px; }
-
-  #contador { font-size:26px; }
-
-  #contador b { font-size:30px; }
-
-  .bg { object-position:20% center; }
-}
-</style>
+        /* MOBILE */
+        @media(max-width: 900px){
+            .main-wrapper { flex-direction: column; overflow-y: auto; }
+            .left-bg { height: 40vh; flex: none; }
+            .right-content { flex: 1; padding: 30px 20px; }
+            h1 { font-size: 50px; }
+        }
+    </style>
 </head>
-
 <body>
 
-<img src="fundo.png" class="bg">
-<div class="overlay"></div>
+<div class="main-wrapper">
+    <div class="left-bg">
+        <img src="fundo.png" alt="Background">
+    </div>
 
-<div class="container">
+    <div class="right-content">
+        <img src="logo.png" class="logo" alt="Logo">
+        <h1>DIP 2026</h1>
+        <div class="subtitle">Fé Corajosa</div>
+        
+        <div id="contador">FALTAM <b>--</b> DIAS</div>
 
-<div class="left">
-<img src="logo.png" class="logo">
-<h1>DIP 2026</h1>
-<div class="subtitle">Fé Corajosa</div>
-<div class="sub-header">No Oriente Médio e Norte da África</div>
+        <button class="btn" onclick="abrirModal()">Fazer Inscrição</button>
+    </div>
 </div>
 
-<div class="right">
-<div class="card">
+<div id="modalInscricao" class="modal">
+    <div class="modal-content">
+        <div id="form">
+            <h3>Dados Pessoais</h3>
+            <input id="nome" placeholder="Nome completo">
+            <input id="email" placeholder="E-mail">
+            <input id="tel" placeholder="Telefone">
+            <button class="btn" style="width:100%" onclick="irPagamento()">Continuar</button>
+            <button class="btn" style="width:100%; border:none; margin-top:10px; font-size:12px;" onclick="fecharModal()">Cancelar</button>
+        </div>
 
-<div id="contador">⏳ Calculando...</div>
+        <div id="pagamento" class="hidden">
+            <h3>Pagamento Pix</h3>
+            <p style="color:#ffeb3b; font-size:24px; margin: 20px 0;">R$ 30,00</p>
+            <img src="qrcode.png" style="width:150px; background:#fff; padding:10px; border-radius:10px; margin-bottom:10px;">
+            <input id="pix" value="39.116.165/0001-69" readonly onclick="copiar()">
+            <button class="btn" style="width:100%" onclick="enviar()">Finalizar Inscrição</button>
+        </div>
 
-<div class="info-row">📍 Rua Ana Teles, 826</div>
-<div class="info-row">📅 30/05 e 31/05</div>
-
-<!-- INÍCIO -->
-<div id="inicio">
-<button class="btn" onclick="abrir()">Fazer inscrição</button>
-</div>
-
-<!-- FORM -->
-<div id="form" class="hidden">
-<input id="nome" placeholder="Nome completo">
-<input id="email" placeholder="E-mail">
-<input id="tel" placeholder="Telefone">
-<button class="btn" onclick="irPagamento()">Continuar</button>
-</div>
-
-<!-- PAGAMENTO -->
-<div id="pagamento" class="hidden">
-<h3>Confirmar Inscrição</h3>
-<p style="color:#ffeb3b;font-size:24px;">R$ 30,00</p>
-
-<img src="qrcode.png" style="width:150px;background:#fff;padding:10px;border-radius:10px;">
-
-<input id="pix" value="39.116.165/0001-69" readonly onclick="copiar()">
-
-<button class="btn" onclick="copiar()">Copiar Pix</button>
-<button class="btn" onclick="enviar()">Finalizar</button>
-</div>
-
-<!-- FINAL -->
-<div id="final" class="hidden">
-<h2>🎉 Quase pronto!</h2>
-<p>Verifique seu e-mail.</p>
-</div>
-
-</div>
-</div>
-
+        <div id="final" class="hidden">
+            <h2>🎉 Sucesso!</h2>
+            <p>Sua inscrição foi enviada. Verifique seu e-mail.</p>
+            <button class="btn" style="width:100%; margin-top:20px" onclick="location.reload()">Fechar</button>
+        </div>
+    </div>
 </div>
 
 <script>
-function atualizarContador(){
-  const data = new Date("2026-05-30T08:00:00").getTime();
-  const agora = new Date().getTime();
-  const diff = data - agora;
+    // Inicialização Firebase (Mantenha suas chaves aqui)
+    const firebaseConfig = { apiKey: "AIzaSy...", projectId: "dip-2026" };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-  if(diff <= 0){
-    contador.innerHTML = "Evento iniciado!";
-    return;
-  }
+    function atualizarContador(){
+        const dataEvento = new Date("2026-05-30T08:00:00").getTime();
+        const agora = new Date().getTime();
+        const diff = dataEvento - agora;
 
-  const dias = Math.floor(diff/(1000*60*60*24));
-  const horas = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+        if(diff <= 0){
+            document.getElementById("contador").innerHTML = "É HOJE!";
+            return;
+        }
 
-  contador.innerHTML = `⏳ <b>${dias}</b> dias e <b>${horas}</b> horas`;
-}
+        const dias = Math.floor(diff/(1000*60*60*24));
+        document.getElementById("contador").innerHTML = `FALTAM <b>${dias}</b> DIAS`;
+    }
 
-setInterval(atualizarContador,1000);
-atualizarContador();
+    setInterval(atualizarContador, 1000);
+    atualizarContador();
 
-function abrir(){
-  inicio.classList.add("hidden");
-  form.classList.remove("hidden");
-}
+    function abrirModal() { document.getElementById("modalInscricao").style.display = "flex"; }
+    function fecharModal() { document.getElementById("modalInscricao").style.display = "none"; }
 
-function irPagamento(){
-  if(!nome.value || !email.value || !tel.value){
-    alert("Preencha tudo!");
-    return;
-  }
-  form.classList.add("hidden");
-  pagamento.classList.remove("hidden");
-}
+    function irPagamento(){
+        if(!nome.value || !email.value || !tel.value){ alert("Preencha todos os campos!"); return; }
+        document.getElementById("form").classList.add("hidden");
+        document.getElementById("pagamento").classList.remove("hidden");
+    }
 
-function copiar(){
-  navigator.clipboard.writeText(pix.value);
-  alert("Pix copiado!");
-}
+    function copiar(){
+        navigator.clipboard.writeText(document.getElementById("pix").value);
+        alert("Chave Pix copiada!");
+    }
 
-async function enviar(){
-  await db.collection("inscritos").add({
-    nome:nome.value,
-    email:email.value,
-    telefone:tel.value,
-    status:"pendente",
-    data:new Date()
-  });
-
-  inicio.classList.add("hidden");
-  pagamento.classList.add("hidden");
-  final.classList.remove("hidden");
-
-  alert("Inscrição enviada!");
-}
+    async function enviar(){
+        try {
+            await db.collection("inscritos").add({
+                nome: nome.value,
+                email: email.value,
+                telefone: tel.value,
+                status: "pendente",
+                data: new Date()
+            });
+            document.getElementById("pagamento").classList.add("hidden");
+            document.getElementById("final").classList.remove("hidden");
+        } catch (e) {
+            alert("Erro ao salvar: " + e.message);
+        }
+    }
 </script>
 
 </body>
