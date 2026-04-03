@@ -43,12 +43,15 @@ body {
 
 /* FUNDO */
 .bg {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  z-index: -2;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* 🎯 AJUSTE FINO DO ENQUADRAMENTO */
+    object-position: 25% center;
+
+    z-index: -2;
 }
 
 .overlay {
@@ -161,7 +164,10 @@ input {
 
 /* 📱 MOBILE */
 @media (max-width:900px){
-
+  .bg {
+        object-position: 20% center;
+    }
+}
   .container {
     flex-direction: column;
     padding:20px;
