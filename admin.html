@@ -194,10 +194,7 @@ function atualizarGrafico(pendente, pago){
 }
 
 // 🧾 LISTA
-function renderizar(listaDados){
-  let html = "";
-
-  listaDados.forEach(d=>{
+ listaDados.forEach(d=>{
 
     let qrUrl = d.codigo
       ? `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(d.codigo)}`
@@ -214,9 +211,15 @@ function renderizar(listaDados){
 
       <div style="display:flex;flex-direction:column;gap:6px;">
 
-        <button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
-          ✅ Confirmar pagamento
-        </button>
+        ${
+          d.status === "pendente"
+          ? `<button onclick="confirmar('${d.id}','${d.nome}','${d.email}')">
+              ✅ Confirmar pagamento
+            </button>`
+          : `<div style="padding:10px; background:#00c853; border-radius:8px; text-align:center;">
+              ✔️ Pago
+            </div>`
+        }
 
         <button class="btn-delete" onclick="excluir('${d.id}','${d.nome}')">
           🗑️ Excluir
@@ -228,6 +231,7 @@ function renderizar(listaDados){
   });
 
   lista.innerHTML = html || "Nenhum resultado.";
+}
 }
 
 // 🔎 FILTRO
