@@ -28,7 +28,6 @@ const db = firebase.firestore();
 :root {
   --primary: #599202;
   --hover: #73bd03;
-  --bg-card: rgba(18, 18, 18, 0.95);
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -37,28 +36,23 @@ body {
   font-family: 'Inter', sans-serif;
   background: #000;
   color: #fff;
-  min-height: 100vh;
-  overflow-x: hidden;
 }
 
-/* FUNDO */
+/* FUNDO AJUSTADO */
 .bg {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-
-    /* 🎯 AJUSTE FINO DO ENQUADRAMENTO */
-    object-position: 25% center;
-
-    z-index: -2;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 25% center;
+  z-index: -2;
 }
 
 .overlay {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
   z-index: -1;
 }
 
@@ -71,119 +65,76 @@ body {
   padding: 40px;
 }
 
-.left {
-  flex: 1.2;
-}
+.left { flex:1.2; }
 
-.logo {
-  width: 110px;
-  margin-bottom: 30px;
-}
+.logo { width:110px; margin-bottom:20px; }
 
-h1 {
-  font-size: 100px;
-  font-weight: 800;
-  line-height: 0.9;
-}
+h1 { font-size:100px; font-weight:800; }
 
-.subtitle {
-  font-size: 32px;
-  letter-spacing: 4px;
-  margin-bottom: 20px;
-}
+.subtitle { font-size:30px; margin-bottom:20px; }
 
-.sub-header {
-  font-size: 14px;
-  letter-spacing: 3px;
-  opacity: 0.7;
-}
+.sub-header { font-size:14px; opacity:0.7; }
 
-.right {
-  flex: 0.8;
-  display: flex;
-  justify-content: center;
-}
+.right { flex:0.8; display:flex; justify-content:center; }
 
 .card {
-  background: var(--bg-card);
-  padding: 40px;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
+  background: rgba(18,18,18,0.95);
+  padding:40px;
+  border-radius:15px;
+  max-width:400px;
+  width:100%;
+  text-align:center;
 }
 
-/* 🔥 CONTADOR TOP */
+/* CONTADOR TOP */
 #contador {
   background: rgba(255,255,255,0.07);
-  padding: 20px;
-  border-radius: 12px;
-  color: #d1e2b5;
-
-  font-size: 42px;
-  font-weight: 800;
-  text-align: center;
-
-  margin-bottom: 25px;
-  line-height: 1.2;
-
-  letter-spacing: 1px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+  padding:20px;
+  border-radius:12px;
+  font-size:42px;
+  font-weight:800;
+  margin-bottom:25px;
 }
 
 #contador b {
-  color: #ffffff;
-  font-size: 48px;
-}
-
-.info-row {
-  font-size: 14px;
-  margin: 8px 0;
-}
-
-.btn {
-  width: 100%;
-  padding: 16px;
-  border-radius: 8px;
-  background: var(--primary);
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 20px;
+  font-size:48px;
+  color:#fff;
 }
 
 input {
-  width: 100%;
-  padding: 14px;
-  margin: 10px 0;
-  border-radius: 8px;
-  border: none;
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border-radius:8px;
+  border:none;
+}
+
+.btn {
+  width:100%;
+  padding:15px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  background:var(--primary);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
 }
 
 .hidden { display:none; }
 
-/* 📱 MOBILE */
-@media (max-width:900px){
-  .bg {
-        object-position: 20% center;
-    }
-}
-  .container {
-    flex-direction: column;
-    padding:20px;
-  }
+/* MOBILE */
+@media(max-width:900px){
 
-  h1 { font-size: 65px; }
-  .subtitle { font-size: 22px; }
+  .container { flex-direction:column; padding:20px; }
 
-  #contador {
-    font-size: 26px;
-    padding: 15px;
-  }
+  h1 { font-size:60px; }
 
-  #contador b {
-    font-size: 30px;
-  }
+  #contador { font-size:26px; }
+
+  #contador b { font-size:30px; }
+
+  .bg { object-position:20% center; }
 }
 </style>
 </head>
@@ -210,7 +161,37 @@ input {
 <div class="info-row">📍 Rua Ana Teles, 826</div>
 <div class="info-row">📅 30/05 e 31/05</div>
 
+<!-- INÍCIO -->
+<div id="inicio">
 <button class="btn" onclick="abrir()">Fazer inscrição</button>
+</div>
+
+<!-- FORM -->
+<div id="form" class="hidden">
+<input id="nome" placeholder="Nome completo">
+<input id="email" placeholder="E-mail">
+<input id="tel" placeholder="Telefone">
+<button class="btn" onclick="irPagamento()">Continuar</button>
+</div>
+
+<!-- PAGAMENTO -->
+<div id="pagamento" class="hidden">
+<h3>Confirmar Inscrição</h3>
+<p style="color:#ffeb3b;font-size:24px;">R$ 30,00</p>
+
+<img src="qrcode.png" style="width:150px;background:#fff;padding:10px;border-radius:10px;">
+
+<input id="pix" value="39.116.165/0001-69" readonly onclick="copiar()">
+
+<button class="btn" onclick="copiar()">Copiar Pix</button>
+<button class="btn" onclick="enviar()">Finalizar</button>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="hidden">
+<h2>🎉 Quase pronto!</h2>
+<p>Verifique seu e-mail.</p>
+</div>
 
 </div>
 </div>
@@ -219,16 +200,16 @@ input {
 
 <script>
 function atualizarContador(){
-  const dataEvento = new Date("2026-05-30T08:00:00").getTime();
+  const data = new Date("2026-05-30T08:00:00").getTime();
   const agora = new Date().getTime();
-  const diff = dataEvento - agora;
+  const diff = data - agora;
 
   if(diff <= 0){
     contador.innerHTML = "Evento iniciado!";
     return;
   }
 
-  const dias = Math.floor(diff / (1000*60*60*24));
+  const dias = Math.floor(diff/(1000*60*60*24));
   const horas = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
 
   contador.innerHTML = `⏳ <b>${dias}</b> dias e <b>${horas}</b> horas`;
@@ -238,7 +219,38 @@ setInterval(atualizarContador,1000);
 atualizarContador();
 
 function abrir(){
-  alert("Fluxo continua aqui 😄");
+  inicio.classList.add("hidden");
+  form.classList.remove("hidden");
+}
+
+function irPagamento(){
+  if(!nome.value || !email.value || !tel.value){
+    alert("Preencha tudo!");
+    return;
+  }
+  form.classList.add("hidden");
+  pagamento.classList.remove("hidden");
+}
+
+function copiar(){
+  navigator.clipboard.writeText(pix.value);
+  alert("Pix copiado!");
+}
+
+async function enviar(){
+  await db.collection("inscritos").add({
+    nome:nome.value,
+    email:email.value,
+    telefone:tel.value,
+    status:"pendente",
+    data:new Date()
+  });
+
+  inicio.classList.add("hidden");
+  pagamento.classList.add("hidden");
+  final.classList.remove("hidden");
+
+  alert("Inscrição enviada!");
 }
 </script>
 
